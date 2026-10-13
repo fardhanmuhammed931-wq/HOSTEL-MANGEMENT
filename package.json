@@ -1,0 +1,27 @@
+{
+  "name": "hostel-management-system",
+  "version": "1.0.0",
+  "description": "Full-stack responsive Hostel Management System with Glassmorphism UI, React, Node.js, Express, and MySQL",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "db:init": "node database/init-db.cjs",
+    "db:seed": "node database/init-db.cjs --seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "hostel-management",
+    "react",
+    "express",
+    "mysql",
+    "glassmorphism",
+    "typescript"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "MIT"
+}
