@@ -59,16 +59,20 @@ export const Login: React.FC = () => {
       {/* Main Glass Login Card */}
       <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-slate-900/75 backdrop-blur-2xl p-8 sm:p-10 shadow-glass z-10">
         {/* Brand Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30 border border-cyan-400/40 mb-4">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30 border border-cyan-400/40 mb-3">
             <Building2 className="w-7 h-7 text-white" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             HostelSync ERP
           </h2>
-          <p className="text-sm text-slate-400 mt-1.5">
+          <p className="text-sm text-slate-400 mt-1">
             Enterprise Residential & Hostel Management
           </p>
+          <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Interactive Live Engine Active</span>
+          </div>
         </div>
 
         {/* Error Alert */}

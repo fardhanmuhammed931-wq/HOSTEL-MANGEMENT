@@ -23,6 +23,7 @@ build/
 target/
 *.tsbuildinfo
 *.sqlite
+*.zip
 
 # Editor and OS
 .vscode/
