@@ -241,10 +241,10 @@ export const StudentDetail: React.FC = () => {
                         {f.fee_category.replace(/_/g, ' ')}
                       </td>
                       <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{f.academic_period}</td>
-                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300 font-mono">${f.amount_due}</td>
-                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-semibold">${f.amount_paid}</td>
+                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300 font-mono">₹{f.amount_due}</td>
+                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-semibold">₹{f.amount_paid}</td>
                       <td className="py-3.5 px-5 text-rose-600 dark:text-rose-400 font-mono font-semibold">
-                        ${(f.amount_due - f.amount_paid).toFixed(2)}
+                        ₹{(f.amount_due - f.amount_paid).toFixed(2)}
                       </td>
                       <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{f.due_date}</td>
                       <td className="py-3.5 px-5">
@@ -278,7 +278,7 @@ export const StudentDetail: React.FC = () => {
                       <td className="py-3.5 px-5 font-mono font-semibold text-cyan-600 dark:text-cyan-400">{p.receipt_number}</td>
                       <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{p.payment_date}</td>
                       <td className="py-3.5 px-5 uppercase text-slate-600 dark:text-slate-300 font-medium">{p.payment_method}</td>
-                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-bold">${p.amount}</td>
+                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-bold">₹{p.amount}</td>
                       <td className="py-3.5 px-5 text-right">
                         <Button
                           variant="ghost"

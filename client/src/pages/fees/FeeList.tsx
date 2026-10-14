@@ -150,7 +150,7 @@ export const FeeList: React.FC = () => {
     const payVal = parseFloat(payForm.amount);
 
     if (payVal > remaining) {
-      toast.error(`Payment amount ($${payVal}) cannot exceed remaining balance of $${remaining.toFixed(2)}.`);
+      toast.error(`Payment amount (₹${payVal}) cannot exceed remaining balance of ₹${remaining.toFixed(2)}.`);
       return;
     }
 
@@ -240,7 +240,7 @@ export const FeeList: React.FC = () => {
             <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
               <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Total Billed Due</p>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 font-mono">
-                ${Number(summary?.totalDue || 0).toLocaleString()}
+                ₹{Number(summary?.totalDue || 0).toLocaleString('en-IN')}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cumulative Invoiced</p>
             </GlassCard>
@@ -248,7 +248,7 @@ export const FeeList: React.FC = () => {
             <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
               <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Total Collected</p>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-mono">
-                ${Number(summary?.totalPaid || 0).toLocaleString()}
+                ₹{Number(summary?.totalPaid || 0).toLocaleString('en-IN')}
               </h3>
               <p className="text-xs text-emerald-600 dark:text-emerald-400/80 mt-1 flex items-center gap-1">
                 <CheckCircle className="w-3.5 h-3.5" /> Payments Verified
@@ -258,7 +258,7 @@ export const FeeList: React.FC = () => {
             <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
               <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Outstanding Balance</p>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1 font-mono">
-                ${Number(summary?.totalOutstanding || 0).toLocaleString()}
+                ₹{Number(summary?.totalOutstanding || 0).toLocaleString('en-IN')}
               </h3>
               <p className="text-xs text-amber-600 dark:text-amber-400/80 mt-1">Awaiting Clearance</p>
             </GlassCard>
@@ -266,7 +266,7 @@ export const FeeList: React.FC = () => {
             <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
               <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Overdue Balances</p>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1 font-mono">
-                ${Number(summary?.totalOverdue || 0).toLocaleString()}
+                ₹{Number(summary?.totalOverdue || 0).toLocaleString('en-IN')}
               </h3>
               <p className="text-xs text-rose-600 dark:text-rose-400/80 mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3.5 h-3.5" /> Past Due Date
@@ -360,18 +360,18 @@ export const FeeList: React.FC = () => {
                       <td className="py-4 px-5 text-slate-600 dark:text-slate-300">{fee.academic_period}</td>
 
                       <td className="py-4 px-5 font-mono text-slate-700 dark:text-slate-300 font-semibold">
-                        ${Number(fee.amount_due).toFixed(2)}
+                        ₹{Number(fee.amount_due).toFixed(2)}
                       </td>
 
                       <td className="py-4 px-5 font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                        ${Number(fee.amount_paid).toFixed(2)}
+                        ₹{Number(fee.amount_paid).toFixed(2)}
                       </td>
 
                       <td className="py-4 px-5 font-mono font-bold text-sm">
                         {balance > 0 ? (
-                          <span className="text-rose-600 dark:text-rose-400">${balance.toFixed(2)}</span>
+                          <span className="text-rose-600 dark:text-rose-400">₹{balance.toFixed(2)}</span>
                         ) : (
-                          <span className="text-emerald-600 dark:text-emerald-400">$0.00</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">₹0.00</span>
                         )}
                       </td>
 
@@ -451,7 +451,7 @@ export const FeeList: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label="Amount Due ($) *"
+              label="Amount Due (₹) *"
               type="number"
               step="0.01"
               value={newFeeForm.amount_due}
@@ -494,16 +494,16 @@ export const FeeList: React.FC = () => {
       >
         <form onSubmit={handlePaySubmit} className="space-y-4">
           <div className="p-3.5 rounded-2xl liquid-well border border-black/5 dark:border-white/10 text-xs flex items-center justify-between">
-            <span className="text-slate-500 dark:text-slate-400">Total Billed: <strong className="text-slate-900 dark:text-white font-mono">${selectedFee?.amount_due}</strong></span>
-            <span className="text-slate-500 dark:text-slate-400">Paid: <strong className="text-emerald-600 dark:text-emerald-400 font-mono">${selectedFee?.amount_paid}</strong></span>
+            <span className="text-slate-500 dark:text-slate-400">Total Billed: <strong className="text-slate-900 dark:text-white font-mono">₹{selectedFee?.amount_due}</strong></span>
+            <span className="text-slate-500 dark:text-slate-400">Paid: <strong className="text-emerald-600 dark:text-emerald-400 font-mono">₹{selectedFee?.amount_paid}</strong></span>
             <span className="font-bold text-rose-600 dark:text-rose-400 font-mono">
-              Remaining: ${(Number(selectedFee?.amount_due || 0) - Number(selectedFee?.amount_paid || 0)).toFixed(2)}
+              Remaining: ₹{(Number(selectedFee?.amount_due || 0) - Number(selectedFee?.amount_paid || 0)).toFixed(2)}
             </span>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label="Payment Amount ($) *"
+              label="Payment Amount (₹) *"
               type="number"
               step="0.01"
               max={Number(selectedFee?.amount_due || 0) - Number(selectedFee?.amount_paid || 0)}

@@ -101,7 +101,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose, pay
                   {payment.payment_method}
                 </td>
                 <td className="py-3.5 px-4 text-right font-bold text-emerald-600 dark:text-emerald-400 font-mono text-base">
-                  ${parseFloat(String(payment.amount)).toFixed(2)}
+                  ₹{parseFloat(String(payment.amount)).toFixed(2)}
                 </td>
               </tr>
             </tbody>

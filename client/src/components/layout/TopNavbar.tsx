@@ -32,7 +32,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
 
   const notifications = [
     { id: 1, title: 'Room Allocation Approved', time: '10m ago', unread: true },
-    { id: 2, title: 'Fee Payment Received ($2,700)', time: '1h ago', unread: false },
+    { id: 2, title: 'Fee Payment Received (₹2,700)', time: '1h ago', unread: false },
     { id: 3, title: 'New Maintenance Ticket Filed', time: '3h ago', unread: false },
   ];
 
@@ -72,10 +72,10 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
         </div>
       </div>
 
-      {/* Center: Command-Style Search Bar */}
+      {/* Center/Right: Rounded-Full Pill Search Bar (Matching Mockup) */}
       <form
         onSubmit={handleSearchSubmit}
-        className="hidden md:flex items-center flex-1 max-w-xs lg:max-w-md mx-2"
+        className="hidden md:flex items-center flex-1 max-w-xs lg:max-w-sm mx-2"
       >
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -83,16 +83,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
           </div>
           <input
             type="text"
-            placeholder="Search students, rooms, records..."
+            placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-12 py-2 text-xs sm:text-sm rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/5 dark:border-white/10 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500/60 focus:ring-2 focus:ring-cyan-500/15 transition-all shadow-[inset_0_1px_1.5px_rgba(0,0,0,0.03)]"
+            className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-full bg-white/70 dark:bg-white/10 border border-white/80 dark:border-white/15 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all shadow-sm"
           />
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-black/5 dark:bg-white/10 rounded-md border border-black/5 dark:border-white/10">
-              ↵
-            </kbd>
-          </div>
         </div>
       </form>
 

@@ -167,7 +167,7 @@ export const PaymentHistory: React.FC = () => {
                     </td>
 
                     <td className="py-4 px-5 font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
-                      +${Number(p.amount).toFixed(2)}
+                      +₹{Number(p.amount).toFixed(2)}
                     </td>
 
                     <td className="py-4 px-5 text-right">

@@ -232,12 +232,12 @@ export const ReportsPage: React.FC = () => {
                         <td className="py-4 px-5 font-semibold text-slate-900 dark:text-white capitalize">
                           {cat.fee_category.replace(/_/g, ' ')}
                         </td>
-                        <td className="py-4 px-5 font-mono text-slate-600 dark:text-slate-300">${Number(cat.total_due).toFixed(2)}</td>
+                        <td className="py-4 px-5 font-mono text-slate-600 dark:text-slate-300">₹{Number(cat.total_due).toFixed(2)}</td>
                         <td className="py-4 px-5 font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                          ${Number(cat.total_paid).toFixed(2)}
+                          ₹{Number(cat.total_paid).toFixed(2)}
                         </td>
                         <td className="py-4 px-5 font-mono text-rose-600 dark:text-rose-400 font-bold">
-                          ${Number(cat.total_balance).toFixed(2)}
+                          ₹{Number(cat.total_balance).toFixed(2)}
                         </td>
                       </tr>
                     ))}
@@ -256,7 +256,7 @@ export const ReportsPage: React.FC = () => {
                       {pm.payment_method}
                     </span>
                     <div className="text-right">
-                      <p className="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-sm">${Number(pm.total_amount).toFixed(2)}</p>
+                      <p className="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-sm">₹{Number(pm.total_amount).toFixed(2)}</p>
                       <p className="text-slate-500 dark:text-slate-400 text-[10px]">{pm.count} Transactions</p>
                     </div>
                   </div>

@@ -158,14 +158,14 @@ export const MaintenanceList: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header (Matching Mockup) */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Maintenance & Complaints
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+            Complaints
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Submit facility repair tickets, assign staff dispatch, and record resolutions.
+            Track and manage student complaints.
           </p>
         </div>
 
@@ -179,28 +179,30 @@ export const MaintenanceList: React.FC = () => {
             }
             setIsSubmitModalOpen(true);
           }}
+          className="btn-gradient-blue shadow-md"
         >
-          Submit New Complaint
+          New Complaint
         </Button>
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
+      <div className="p-4 sm:p-5 rounded-3xl bg-white/70 dark:bg-slate-900/60 border border-white/80 dark:border-white/10 shadow-sm">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-          <Input
-            placeholder="Search ticket, title, student, room..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            leftIcon={<Search className="w-4 h-4" />}
-          />
+          <div className="sm:col-span-2">
+            <Input
+              placeholder="Search complaints..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              leftIcon={<Search className="w-4 h-4" />}
+            />
+          </div>
 
           <Select
             options={[
-              { value: '', label: 'All Ticket Statuses' },
-              { value: 'submitted', label: 'Submitted (New)' },
-              { value: 'in_progress', label: 'In Progress (Dispatched)' },
-              { value: 'resolved', label: 'Resolved (Fixed)' },
-              { value: 'closed', label: 'Closed' },
+              { value: '', label: 'All Statuses' },
+              { value: 'submitted', label: 'Pending' },
+              { value: 'in_progress', label: 'In Progress' },
+              { value: 'resolved', label: 'Resolved' },
             ]}
             value={status}
             onChange={(e) => setStatus(e.target.value)}
@@ -208,122 +210,88 @@ export const MaintenanceList: React.FC = () => {
 
           <Select
             options={[
-              { value: '', label: 'All Priorities' },
-              { value: 'emergency', label: 'Emergency Priority' },
-              { value: 'high', label: 'High Priority' },
-              { value: 'medium', label: 'Medium Priority' },
-              { value: 'low', label: 'Low Priority' },
-            ]}
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          />
-
-          <Select
-            options={[
               { value: '', label: 'All Categories' },
-              { value: 'electrical', label: 'Electrical' },
               { value: 'plumbing', label: 'Plumbing' },
-              { value: 'cleaning', label: 'Cleaning & Janitorial' },
-              { value: 'furniture', label: 'Furniture' },
-              { value: 'internet', label: 'Wi-Fi / Internet' },
-              { value: 'room_facilities', label: 'Room Facilities' },
-              { value: 'other', label: 'Other Issue' },
+              { value: 'electrical', label: 'Electrical' },
+              { value: 'internet', label: 'Internet / WiFi' },
+              { value: 'general', label: 'Mess / General' },
             ]}
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
         </form>
-      </GlassCard>
+      </div>
 
-      {/* Complaints Table */}
-      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
-        <div className="overflow-x-auto">
-          {loading ? (
-            <div className="p-6">
-              <TableSkeleton rows={5} cols={6} />
-            </div>
-          ) : requests.length === 0 ? (
-            <div className="p-8">
-              <EmptyState
-                icon={Wrench}
-                title="No maintenance complaints found"
-                description="No tickets match your filter criteria. Everything is currently in working order!"
-                actionLabel="Submit Complaint"
-                onAction={() => setIsSubmitModalOpen(true)}
-              />
-            </div>
-          ) : (
-            <table className="w-full text-left text-sm">
-              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
-                <tr>
-                  <th className="py-4 px-5">Ticket</th>
-                  <th className="py-4 px-5">Room & Hostel</th>
-                  <th className="py-4 px-5">Student</th>
-                  <th className="py-4 px-5">Category & Title</th>
-                  <th className="py-4 px-5">Priority</th>
-                  <th className="py-4 px-5">Status</th>
-                  {user?.role !== 'student' && <th className="py-4 px-5 text-right">Actions</th>}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-black/5 dark:divide-white/5">
-                {requests.map((ticket) => (
-                  <tr key={ticket.id} className="liquid-table-row text-xs">
-                    <td className="py-4 px-5 font-mono font-bold text-primary-600 dark:text-primary-300">
-                      {ticket.ticket_number}
-                    </td>
+      {/* Complaints List (Matching Mockup: Icon, Title, Subtitle, Status, Chevron) */}
+      <div className="rounded-3xl bg-white/75 dark:bg-slate-900/60 border border-white/80 dark:border-white/10 shadow-sm p-4 sm:p-6 space-y-3">
+        {loading ? (
+          <TableSkeleton rows={5} cols={4} />
+        ) : requests.length === 0 ? (
+          <div className="p-8">
+            <EmptyState
+              icon={Wrench}
+              title="No complaints found"
+              description="No tickets match your filter criteria. Everything is currently in working order!"
+              actionLabel="Submit Complaint"
+              onAction={() => setIsSubmitModalOpen(true)}
+            />
+          </div>
+        ) : (
+          requests.map((ticket) => {
+            const isResolved = ticket.status === 'resolved';
+            const isInProgress = ticket.status === 'in_progress';
 
-                    <td className="py-4 px-5">
-                      <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-semibold">
-                        <Building className="w-3.5 h-3.5 text-primary-500" />
-                        <span>Room {ticket.room_number}</span>
-                      </div>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400">{ticket.hostel_name}</span>
-                    </td>
+            return (
+              <div
+                key={ticket.id}
+                onClick={() => handleOpenUpdateModal(ticket)}
+                className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white/40 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 border border-white/60 dark:border-white/5 transition-all cursor-pointer group"
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                    ticket.category === 'plumbing' 
+                      ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                      : ticket.category === 'electrical'
+                      ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400'
+                      : ticket.category === 'internet'
+                      ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400'
+                      : 'bg-orange-100 text-orange-600 dark:bg-orange-900/40 dark:text-orange-400'
+                  }`}>
+                    <Wrench className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-blue-600 transition-colors">
+                      {ticket.title}
+                    </h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      Room {ticket.room_number} • {new Date(ticket.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </p>
+                  </div>
+                </div>
 
-                    <td className="py-4 px-5">
-                      <p className="font-semibold text-slate-900 dark:text-white">{ticket.student_name}</p>
-                      <p className="text-slate-400 font-mono text-[11px]">{ticket.student_code}</p>
-                    </td>
+                <div className="flex items-center gap-3">
+                  {isResolved ? (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                      Resolved
+                    </span>
+                  ) : isInProgress ? (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
+                      In Progress
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+                      Pending
+                    </span>
+                  )}
 
-                    <td className="py-4 px-5">
-                      <span className="text-[10px] font-semibold uppercase text-primary-600 dark:text-primary-300 bg-primary-500/10 px-2 py-0.5 rounded-full border border-primary-500/20">
-                        {ticket.category.replace(/_/g, ' ')}
-                      </span>
-                      <p className="font-bold text-slate-900 dark:text-white mt-1.5">{ticket.title}</p>
-                      <p className="text-slate-500 dark:text-slate-400 text-[11px] max-w-sm line-clamp-1">{ticket.description}</p>
-                      {ticket.resolution_notes && (
-                        <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 italic">
-                          Resolution: {ticket.resolution_notes}
-                        </p>
-                      )}
-                    </td>
-
-                    <td className="py-4 px-5">
-                      <Badge status={ticket.priority} size="sm" />
-                    </td>
-
-                    <td className="py-4 px-5">
-                      <Badge status={ticket.status} size="sm" />
-                    </td>
-
-                    {user?.role !== 'student' && (
-                      <td className="py-4 px-5 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          leftIcon={<Edit2 className="w-3.5 h-3.5" />}
-                          onClick={() => handleOpenUpdateModal(ticket)}
-                        >
-                          Update
-                        </Button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                  <span className="text-slate-400 text-sm font-bold group-hover:text-slate-700 transition-colors">
+                    ›
+                  </span>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
 
       {/* Submit Complaint Modal */}

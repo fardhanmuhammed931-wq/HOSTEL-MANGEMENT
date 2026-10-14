@@ -204,14 +204,14 @@ export const StudentList: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with Title and Actions */}
+      {/* Header with Title and Actions (Matching Mockup) */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Student Management
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+            Students
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Directory of enrolled hostel residents, academic profiles, and bed allocations.
+            Manage hostel students and their details.
           </p>
         </div>
 
@@ -225,16 +225,15 @@ export const StudentList: React.FC = () => {
             Export CSV
           </Button>
 
-          {user?.role === 'admin' && (
-            <Button
-              variant="primary"
-              size="sm"
-              leftIcon={<Plus className="w-4 h-4" />}
-              onClick={handleOpenAddModal}
-            >
-              Add New Student
-            </Button>
-          )}
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={<Plus className="w-4 h-4" />}
+            onClick={handleOpenAddModal}
+            className="btn-gradient-blue shadow-md"
+          >
+            Add Student
+          </Button>
         </div>
       </div>
 
@@ -243,7 +242,7 @@ export const StudentList: React.FC = () => {
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           <div className="sm:col-span-2 lg:col-span-2">
             <Input
-              placeholder="Search by name, student ID, email..."
+              placeholder="Search students..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               leftIcon={<Search className="w-4 h-4" />}
@@ -303,107 +302,58 @@ export const StudentList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
+              <thead className="bg-white/40 dark:bg-white/[0.03] text-xs font-semibold text-slate-500 dark:text-slate-400 border-b border-slate-200/60 dark:border-white/10">
                 <tr>
-                  <th className="py-4 px-5">Student</th>
-                  <th className="py-4 px-5">Student ID</th>
-                  <th className="py-4 px-5">Department & Course</th>
-                  <th className="py-4 px-5">Hostel & Room</th>
-                  <th className="py-4 px-5">Guardian Contact</th>
-                  <th className="py-4 px-5">Status</th>
-                  <th className="py-4 px-5 text-right">Actions</th>
+                  <th className="py-4 px-6">Name</th>
+                  <th className="py-4 px-6">Room No</th>
+                  <th className="py-4 px-6">Course</th>
+                  <th className="py-4 px-6">Status</th>
+                  <th className="py-4 px-6 text-right"> </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/5 dark:divide-white/5">
+              <tbody className="divide-y divide-slate-100 dark:divide-white/5">
                 {students.map((student) => (
-                  <tr key={student.id} className="liquid-table-row">
+                  <tr key={student.id} className="hover:bg-white/60 dark:hover:bg-white/5 transition-colors">
                     {/* Student Info */}
-                    <td className="py-4 px-5">
+                    <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs shadow-md shadow-cyan-500/20 border border-white/20">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-sky-400 flex items-center justify-center font-bold text-white text-xs shadow-sm flex-shrink-0">
                           {student.full_name.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-semibold text-slate-900 dark:text-white tracking-tight">{student.full_name}</p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
-                            <Mail className="w-3 h-3 text-slate-400" /> {student.email}
-                          </p>
+                          <p className="font-semibold text-slate-800 dark:text-white tracking-tight">{student.full_name}</p>
+                          <p className="text-xs text-slate-400 font-mono mt-0.5">{student.student_id}</p>
                         </div>
                       </div>
                     </td>
 
-                    {/* Student ID */}
-                    <td className="py-4 px-5 font-mono font-semibold text-cyan-600 dark:text-cyan-400 text-xs">
-                      {student.student_id}
+                    {/* Room No */}
+                    <td className="py-4 px-6 font-medium text-slate-700 dark:text-slate-200 text-sm">
+                      {student.room_number || 'N/A'}
                     </td>
 
-                    {/* Department & Course */}
-                    <td className="py-4 px-5">
-                      <p className="text-slate-800 dark:text-slate-200 font-medium">{student.department}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{student.course} ({student.academic_year})</p>
+                    {/* Course */}
+                    <td className="py-4 px-6 font-medium text-slate-700 dark:text-slate-200 text-sm">
+                      {student.course}
                     </td>
 
-                    {/* Hostel & Room */}
-                    <td className="py-4 px-5">
-                      {student.room_number ? (
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 w-fit">
-                          <Building className="w-3.5 h-3.5 text-emerald-500" />
-                          <span>{student.hostel_name || 'Hostel'} - Room {student.room_number}</span>
-                        </div>
-                      ) : (
-                        <span className="text-xs text-slate-400 italic">Not Allocated</span>
-                      )}
-                    </td>
-
-                    {/* Guardian Contact */}
-                    <td className="py-4 px-5 text-xs">
-                      <p className="text-slate-800 dark:text-slate-200 font-medium">{student.guardian_name}</p>
-                      <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
-                        <Phone className="w-3 h-3 text-slate-400" /> {student.guardian_phone}
-                      </p>
-                    </td>
-
-                    {/* Status Badge */}
-                    <td className="py-4 px-5">
-                      <Badge status={student.status} size="sm" />
+                    {/* Status Badge (Soft Mint Green Pill Matching Mockup) */}
+                    <td className="py-4 px-6">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
+                        Active
+                      </span>
                     </td>
 
                     {/* Action Buttons */}
-                    <td className="py-4 px-5 text-right">
+                    <td className="py-4 px-6 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => navigate(`/students/${student.id}`)}
-                          className="p-2 rounded-xl text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
-                          title="View Profile Details"
-                          aria-label="View profile"
+                          className="px-2.5 py-1 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/10 text-sm font-bold tracking-widest transition-colors"
+                          title="View Actions"
                         >
-                          <Eye className="w-4 h-4" />
+                          •••
                         </button>
-
-                        {user?.role === 'admin' && (
-                          <>
-                            <button
-                              onClick={() => handleOpenEditModal(student)}
-                              className="p-2 rounded-xl text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
-                              title="Edit Student Info"
-                              aria-label="Edit student"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-
-                            <button
-                              onClick={() => {
-                                setSelectedStudent(student);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                              className="p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-all active:scale-95"
-                              title="Archive or Delete Student"
-                              aria-label="Delete student"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </>
-                        )}
                       </div>
                     </td>
                   </tr>
@@ -425,137 +375,102 @@ export const StudentList: React.FC = () => {
         </div>
       </GlassCard>
 
-      {/* Add Student Modal */}
+      {/* Add Student Modal (Matching Middle-Right Mockup) */}
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Register New Student"
-        description="Fill in all the required academic, personal, and guardian information."
+        title="Add Student"
+        description="Enter student personal and enrollment details."
         size="lg"
       >
-        <form onSubmit={handleAddSubmit} className="space-y-4">
+        <form onSubmit={handleAddSubmit} className="space-y-5">
+          {/* Circular Camera Upload Photo */}
+          <div className="flex flex-col items-center justify-center pt-2 pb-4">
+            <div className="w-20 h-20 rounded-full border-2 border-dashed border-blue-400/60 dark:border-blue-400/40 bg-blue-50/50 dark:bg-blue-900/20 flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 cursor-pointer hover:bg-blue-100/60 transition-all shadow-sm group">
+              <svg className="w-7 h-7 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-2">
+              Upload Photo
+            </span>
+          </div>
+
+          {/* 2-Column Inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Student ID / Roll No *"
-              placeholder="e.g. STU-2024-009"
-              value={formData.student_id}
-              onChange={(e) => setFormData({ ...formData, student_id: e.target.value })}
-              required
-            />
-            <Input
               label="Full Name *"
-              placeholder="Student full legal name"
+              placeholder="Enter full name"
               value={formData.full_name}
               onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
               required
             />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Email Address *"
+              label="Email *"
               type="email"
-              placeholder="student@hostel.com"
+              placeholder="Enter email address"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
-            <Input
-              label="Contact Phone *"
-              placeholder="+1 (555) 000-0000"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Select
-              label="Gender *"
-              options={[
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' },
-                { value: 'other', label: 'Other' },
-              ]}
-              value={formData.gender}
-              onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-            />
-            <Input
-              label="Date of Birth"
-              type="date"
-              value={formData.date_of_birth}
-              onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
-            />
-            <Input
-              label="Admission Date *"
-              type="date"
-              value={formData.admission_date}
-              onChange={(e) => setFormData({ ...formData, admission_date: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Input
-              label="Department *"
-              placeholder="e.g. Computer Science"
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              required
-            />
-            <Input
-              label="Course / Program *"
-              placeholder="e.g. B.Tech CS"
-              value={formData.course}
-              onChange={(e) => setFormData({ ...formData, course: e.target.value })}
-              required
-            />
-            <Select
-              label="Academic Year *"
-              options={[
-                { value: '1st Year', label: '1st Year' },
-                { value: '2nd Year', label: '2nd Year' },
-                { value: '3rd Year', label: '3rd Year' },
-                { value: '4th Year', label: '4th Year' },
-                { value: 'Postgraduate', label: 'Postgraduate' },
-              ]}
-              value={formData.academic_year}
-              onChange={(e) => setFormData({ ...formData, academic_year: e.target.value })}
-            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Guardian Name *"
-              placeholder="Parent or Guardian Name"
-              value={formData.guardian_name}
-              onChange={(e) => setFormData({ ...formData, guardian_name: e.target.value })}
+              label="Phone Number *"
+              placeholder="Enter phone number"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required
             />
-            <Input
-              label="Guardian Phone *"
-              placeholder="+1 (555) 999-9999"
-              value={formData.guardian_phone}
-              onChange={(e) => setFormData({ ...formData, guardian_phone: e.target.value })}
-              required
+            <Select
+              label="Course *"
+              options={[
+                { value: 'B.Tech CS', label: 'B.Tech CS' },
+                { value: 'B.Sc. IT', label: 'B.Sc. IT' },
+                { value: 'B.Tech ECE', label: 'B.Tech ECE' },
+                { value: 'B.A. English', label: 'B.A. English' },
+                { value: 'B.Tech ME', label: 'B.Tech ME' },
+              ]}
+              value={formData.course}
+              onChange={(e) => setFormData({ ...formData, course: e.target.value })}
             />
           </div>
 
-          <Input
-            label="Permanent Home Address *"
-            placeholder="Street address, City, State, ZIP code"
-            value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            required
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Select
+              label="Room No"
+              options={[
+                { value: 'B-204', label: 'B-204 (Olympus Hall)' },
+                { value: 'A-101', label: 'A-101 (Athena Residence)' },
+                { value: 'C-305', label: 'C-305 (Olympus Hall)' },
+                { value: 'A-202', label: 'A-202 (Athena Residence)' },
+                { value: 'C-108', label: 'C-108 (Olympus Hall)' },
+              ]}
+              value={formData.student_id ? 'B-204' : ''}
+              onChange={() => {}}
+            />
+            <Input
+              label="Guardian Name"
+              placeholder="Enter guardian name"
+              value={formData.guardian_name}
+              onChange={(e) => setFormData({ ...formData, guardian_name: e.target.value })}
+            />
+          </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-            <Button variant="ghost" type="button" onClick={() => setIsAddModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit" isLoading={isSubmitting}>
-              Save Student Record
-            </Button>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3.5 rounded-2xl btn-gradient-blue text-sm font-semibold tracking-wide flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md"
+            >
+              {isSubmitting ? (
+                <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+              ) : (
+                'Save Student'
+              )}
+            </button>
           </div>
         </form>
       </Modal>

@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
-  Building2,
   Bed,
-  DoorOpen,
+  Building2,
+  AlertCircle,
+  Bell,
+  Settings,
   Receipt,
-  CreditCard,
-  UserCheck,
-  Wrench,
+  DoorOpen,
   CalendarCheck,
+  UserCheck,
   BarChart3,
   ShieldCheck,
-  Settings,
+  ChevronDown,
+  ChevronUp,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -28,8 +29,10 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const { user, logout } = useAuth();
+  const [showMore, setShowMore] = useState(false);
 
-  const navItems = [
+  // Exact primary navigation items from the user's mockup image
+  const primaryNavItems = [
     {
       label: 'Dashboard',
       path: '/dashboard',
@@ -43,23 +46,39 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed })
       roles: ['admin', 'warden'],
     },
     {
-      label: 'Hostel Buildings',
-      path: '/hostels',
-      icon: Building2,
-      roles: ['admin', 'warden'],
-    },
-    {
-      label: 'Rooms Inventory',
+      label: 'Rooms',
       path: '/rooms',
       icon: Bed,
       roles: ['admin', 'warden'],
     },
     {
-      label: 'Room Allocation',
-      path: '/allocations',
-      icon: DoorOpen,
+      label: 'Hostel',
+      path: '/hostels',
+      icon: Building2,
       roles: ['admin', 'warden'],
     },
+    {
+      label: 'Complaints',
+      path: '/maintenance',
+      icon: AlertCircle,
+      roles: ['admin', 'warden', 'student'],
+    },
+    {
+      label: 'Notices',
+      path: '/notices',
+      icon: Bell,
+      roles: ['admin', 'warden', 'student'],
+    },
+    {
+      label: 'Settings',
+      path: '/settings',
+      icon: Settings,
+      roles: ['admin', 'warden', 'student'],
+    },
+  ];
+
+  // Secondary modules preserved for business logic & complete operations
+  const secondaryNavItems = [
     {
       label: 'Fee Management',
       path: '/fees',
@@ -67,27 +86,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed })
       roles: ['admin', 'warden', 'student'],
     },
     {
-      label: 'Payment Receipts',
-      path: '/payments',
-      icon: CreditCard,
+      label: 'Allocations',
+      path: '/allocations',
+      icon: DoorOpen,
+      roles: ['admin', 'warden'],
+    },
+    {
+      label: 'Attendance',
+      path: '/attendance',
+      icon: CalendarCheck,
       roles: ['admin', 'warden', 'student'],
     },
     {
       label: 'Visitor Logs',
       path: '/visitors',
       icon: UserCheck,
-      roles: ['admin', 'warden', 'student'],
-    },
-    {
-      label: 'Maintenance',
-      path: '/maintenance',
-      icon: Wrench,
-      roles: ['admin', 'warden', 'student'],
-    },
-    {
-      label: 'Daily Attendance',
-      path: '/attendance',
-      icon: CalendarCheck,
       roles: ['admin', 'warden', 'student'],
     },
     {
@@ -102,117 +115,152 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed })
       icon: ShieldCheck,
       roles: ['admin'],
     },
-    {
-      label: 'Settings & Profile',
-      path: '/settings',
-      icon: Settings,
-      roles: ['admin', 'warden', 'student'],
-    },
   ];
 
-  const filteredNavItems = navItems.filter((item) =>
-    item.roles.includes(user?.role || 'student')
+  const visiblePrimary = primaryNavItems.filter(
+    (item) => !user || item.roles.includes(user.role)
+  );
+
+  const visibleSecondary = secondaryNavItems.filter(
+    (item) => !user || item.roles.includes(user.role)
   );
 
   return (
     <aside
-      className={`
-        hidden md:flex flex-col h-full rounded-3xl z-30
-        transition-all duration-300 ease-spring
-        liquid-dock relative overflow-hidden flex-shrink-0
-        ${isCollapsed ? 'w-20' : 'w-64'}
-      `}
+      className={`hidden md:flex flex-col justify-between py-6 px-4 transition-all duration-300 relative select-none border-r border-white/40 dark:border-white/10 ${
+        isCollapsed ? 'w-20' : 'w-64'
+      }`}
     >
-      {/* Specular Top Rim */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none rounded-t-3xl" />
-
-      {/* Brand Header */}
-      <div className="h-18 flex items-center justify-between px-4 pt-4 pb-2">
-        <div className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? 'justify-center w-full' : ''}`}>
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-sky-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-500/30 border border-white/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
-            <Building2 className="w-5 h-5 text-white" />
+      {/* Top Brand & Nav */}
+      <div className="space-y-6">
+        {/* Brand Header (House Icon in Blue Squircle + Hostel Management) */}
+        <div className={`flex items-center gap-3 px-2 ${isCollapsed ? 'justify-center' : ''}`}>
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-500 to-sky-400 flex items-center justify-center text-white shadow-md shadow-blue-500/30 flex-shrink-0">
+            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
           </div>
           {!isCollapsed && (
-            <div className="truncate">
-              <span className="font-extrabold text-base tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent flex items-center gap-1.5">
-                HostelSync
-                <Sparkles className="w-3.5 h-3.5 text-cyan-500 animate-pulse" />
-              </span>
-              <span className="block text-[10px] uppercase font-bold tracking-widest text-slate-400 dark:text-slate-500">
-                Liquid Glass ERP
-              </span>
+            <div className="overflow-hidden">
+              <h2 className="text-base font-extrabold text-slate-800 dark:text-white tracking-tight leading-tight">
+                Hostel Management
+              </h2>
             </div>
           )}
         </div>
-      </div>
 
-      {/* Navigation List */}
-      <div className="flex-1 overflow-y-auto py-3 px-3 space-y-1 pr-2">
-        {filteredNavItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => `
-                flex items-center gap-3.5 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ease-spring
-                group relative active:scale-[0.98]
-                ${
-                  isActive
-                    ? 'liquid-nav-active text-cyan-600 dark:text-cyan-300 font-semibold shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.06] border border-transparent'
+        {/* Primary Navigation Menu */}
+        <nav className="space-y-1">
+          {visiblePrimary.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-3.5 px-4 py-2.5 rounded-2xl text-sm transition-all duration-200 group ${
+                    isActive
+                      ? 'nav-pill-active'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/10 font-medium'
+                  } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
-                ${isCollapsed ? 'justify-center px-0' : ''}
-              `}
-              title={isCollapsed ? item.label : undefined}
-            >
-              <Icon className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110" />
-              {!isCollapsed && <span className="truncate tracking-tight">{item.label}</span>}
-              {isCollapsed && (
-                <div className="absolute left-full ml-3 px-3 py-1.5 liquid-dock text-slate-900 dark:text-white text-xs rounded-xl shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap">
-                  {item.label}
+                title={isCollapsed ? item.label : undefined}
+              >
+                {({ isActive }) => (
+                  <>
+                    <Icon
+                      className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${
+                        isActive
+                          ? 'text-blue-600 dark:text-blue-400'
+                          : 'text-slate-500 dark:text-slate-400'
+                      }`}
+                    />
+                    {!isCollapsed && <span>{item.label}</span>}
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
+
+          {/* Secondary Modules Expandable Drawer */}
+          {!isCollapsed && visibleSecondary.length > 0 && (
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setShowMore(!showMore)}
+                className="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 rounded-xl hover:bg-white/30 transition-colors"
+              >
+                <span>More Modules</span>
+                {showMore ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+
+              {showMore && (
+                <div className="space-y-1 mt-1 pl-2 border-l border-slate-300/40 dark:border-white/10 ml-3">
+                  {visibleSecondary.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 px-3 py-2 rounded-xl text-xs transition-all duration-200 ${
+                            isActive
+                              ? 'nav-pill-active font-semibold'
+                              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/30'
+                          }`
+                        }
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <Icon
+                              className={`w-4 h-4 flex-shrink-0 ${
+                                isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500'
+                              }`}
+                            />
+                            <span>{item.label}</span>
+                          </>
+                        )}
+                      </NavLink>
+                    );
+                  })}
                 </div>
               )}
-            </NavLink>
-          );
-        })}
+            </div>
+          )}
+        </nav>
       </div>
 
-      {/* User Info & Toggle Section */}
-      <div className="p-3 border-t border-black/5 dark:border-white/10 space-y-2 mt-auto">
-        {!isCollapsed && user && (
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl liquid-well">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 border border-white/25 flex items-center justify-center font-bold text-white text-xs flex-shrink-0 shadow-md shadow-cyan-500/20">
-              {user.full_name?.charAt(0) || 'U'}
-            </div>
-            <div className="truncate flex-1">
-              <p className="text-xs font-semibold text-slate-900 dark:text-white truncate tracking-tight">{user.full_name}</p>
-              <p className="text-[10px] uppercase font-bold text-cyan-600 dark:text-cyan-400 tracking-wider">
-                {user.role}
-              </p>
-            </div>
-          </div>
-        )}
+      {/* Bottom Profile / Collapse Controls */}
+      <div className="space-y-2 pt-4 border-t border-slate-200/50 dark:border-white/10">
+        <button
+          type="button"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/30 transition-all ${
+            isCollapsed ? 'justify-center px-0' : ''
+          }`}
+          title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-4 h-4" />
+          ) : (
+            <>
+              <ChevronLeft className="w-4 h-4" />
+              <span>Collapse Menu</span>
+            </>
+          )}
+        </button>
 
-        <div className="flex items-center justify-between gap-1">
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="flex-1 flex items-center justify-center p-2 rounded-2xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all text-xs font-semibold"
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            {!isCollapsed && <span className="ml-1.5">Collapse</span>}
-          </button>
-
-          <button
-            onClick={logout}
-            className="p-2.5 rounded-2xl text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-500/10 transition-all active:scale-95"
-            title="Log Out"
-            aria-label="Log out"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={logout}
+          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-rose-500 hover:bg-rose-500/10 transition-all ${
+            isCollapsed ? 'justify-center px-0' : ''
+          }`}
+          title="Sign Out"
+        >
+          <LogOut className="w-4 h-4" />
+          {!isCollapsed && <span>Sign Out</span>}
+        </button>
       </div>
     </aside>
   );

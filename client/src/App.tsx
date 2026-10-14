@@ -14,6 +14,7 @@ import { FeeList } from './pages/fees/FeeList';
 import { PaymentHistory } from './pages/fees/PaymentHistory';
 import { VisitorList } from './pages/visitors/VisitorList';
 import { MaintenanceList } from './pages/maintenance/MaintenanceList';
+import { NoticesPage } from './pages/notices/NoticesPage';
 import { AttendancePage } from './pages/attendance/AttendancePage';
 import { ReportsPage } from './pages/reports/ReportsPage';
 import { UserList } from './pages/users/UserList';
@@ -114,8 +115,9 @@ export const App: React.FC = () => {
         {/* Visitors */}
         <Route path="visitors" element={<VisitorList />} />
 
-        {/* Maintenance */}
+        {/* Maintenance & Notices */}
         <Route path="maintenance" element={<MaintenanceList />} />
+        <Route path="notices" element={<NoticesPage />} />
 
         {/* Attendance */}
         <Route path="attendance" element={<AttendancePage />} />
