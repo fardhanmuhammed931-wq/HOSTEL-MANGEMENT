@@ -10,13 +10,29 @@ import {
   MaintenanceRequest,
 } from '../types';
 
-const STORAGE_KEY = 'hms_cloud_store_v1';
+const STORAGE_KEY = 'hms_cloud_store_v2';
 
 function getStore(): MockStoreState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    // Clear legacy v1 cache if present
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('hms_cloud_store_v1')) {
+      localStorage.removeItem('hms_cloud_store_v1');
+    }
+
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
     if (raw) {
-      return JSON.parse(raw);
+      const parsed: MockStoreState = JSON.parse(raw);
+      // Ensure all initial demo users (including rahul.sharma) are present
+      if (parsed.users && Array.isArray(parsed.users)) {
+        const hasRahul = parsed.users.some(
+          (u) => u.email.toLowerCase() === 'rahul.sharma@hostel.com'
+        );
+        if (!hasRahul) {
+          parsed.users = INITIAL_MOCK_DATA.users;
+          saveStore(parsed);
+        }
+        return parsed;
+      }
     }
   } catch (e) {
     console.error('Failed to load store from localStorage', e);
@@ -95,15 +111,58 @@ export function handleMockApi(config: any): Promise<any> {
   // -------------------------------------------------------------
   if (url === '/auth/login' && method === 'post') {
     const { email, password } = body;
-    const user = store.users.find(
-      (u) => u.email.toLowerCase() === (email || '').trim().toLowerCase()
+    const cleanInput = (email || '').trim().toLowerCase();
+
+    // Map common demo usernames/aliases
+    let targetEmail = cleanInput;
+    if (cleanInput === 'student') targetEmail = 'rahul.sharma@hostel.com';
+    if (cleanInput === 'admin') targetEmail = 'admin@hostel.com';
+    if (cleanInput === 'warden') targetEmail = 'warden.boys@hostel.com';
+
+    let user = store.users.find(
+      (u) =>
+        u.email.toLowerCase() === targetEmail ||
+        (targetEmail === 'rahul.sharma@hostel.com' && u.email.toLowerCase() === 'alex.turner@hostel.com') ||
+        (targetEmail === 'alex.turner@hostel.com' && u.email.toLowerCase() === 'rahul.sharma@hostel.com') ||
+        (cleanInput === 'student@hostel.com' && u.role === 'student')
     );
+
+    // Guaranteed fallback if demo account is requested
+    if (!user && (targetEmail === 'rahul.sharma@hostel.com' || targetEmail === 'student@hostel.com' || cleanInput === 'student')) {
+      user = {
+        id: 4,
+        email: 'rahul.sharma@hostel.com',
+        password: 'password123',
+        full_name: 'Rahul Sharma',
+        role: 'student',
+        phone: '+91 98765 43210',
+        status: 'active',
+        student_id: 'B-0016',
+        studentRecordId: 1,
+        hostel_id: 1,
+        hostel_name: 'Olympus Hall (North Wing)',
+        room_id: 1,
+        room_number: 'B-204',
+        department: 'Computer Science',
+        course: 'B.Tech CS',
+        created_at: '2024-01-01T00:00:00Z',
+      };
+      store.users.push(user);
+      saveStore(store);
+    }
 
     if (!user) {
       return mockError('Invalid email or password.', 401);
     }
 
-    if (user.password && user.password !== password && password !== 'password123') {
+    const isPasswordValid =
+      !user.password ||
+      user.password === password ||
+      password === 'password123' ||
+      password === 'admin123' ||
+      password === 'student123';
+
+    if (!isPasswordValid) {
       return mockError('Invalid email or password.', 401);
     }
 

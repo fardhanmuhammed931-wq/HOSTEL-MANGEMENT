@@ -14,18 +14,12 @@ export const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setErrorMessage('Please enter both email and password.');
-      return;
-    }
-
+  const executeLogin = async (loginEmail: string, loginPass: string) => {
     setIsLoading(true);
     setErrorMessage('');
 
     try {
-      const res = await authService.login({ email, password });
+      const res = await authService.login({ email: loginEmail, password: loginPass });
       if (res.data?.success && res.data?.data) {
         login(res.data.data.token, res.data.data.user);
         navigate('/dashboard');
@@ -42,10 +36,20 @@ export const Login: React.FC = () => {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setErrorMessage('Please enter both email and password.');
+      return;
+    }
+    await executeLogin(email, password);
+  };
+
   const handleQuickDemoLogin = (demoEmail: string) => {
     setEmail(demoEmail);
     setPassword('password123');
     setErrorMessage('');
+    executeLogin(demoEmail, 'password123');
   };
 
   return (
@@ -193,6 +197,9 @@ export const Login: React.FC = () => {
               Student
             </button>
           </div>
+          <p className="mt-2 text-center text-[10px] text-slate-400 dark:text-slate-400 font-medium">
+            Demo password: <code className="text-blue-500 font-mono">password123</code>
+          </p>
         </div>
       </div>
     </div>

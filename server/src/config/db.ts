@@ -243,7 +243,8 @@ function getSqliteDb(): any {
       (3, 'warden.girls@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Elena Rostova', 'warden', '+1 (555) 019-9432', 'active'),
       (4, 'alex.turner@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Alex Turner', 'student', '+1 (555) 012-4411', 'active'),
       (5, 'sophia.chen@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Sophia Chen', 'student', '+1 (555) 012-7722', 'active'),
-      (6, 'marcus.rashford@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Marcus Bell', 'student', '+1 (555) 012-8833', 'active');
+      (6, 'marcus.rashford@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Marcus Bell', 'student', '+1 (555) 012-8833', 'active'),
+      (7, 'rahul.sharma@hostel.com', '$2a$10$tfTCdi36/G0aIVnNrwHlP.Vf7nhRl2NRr7fpUx7qwO6SuBMz4iCQq', 'Rahul Sharma', 'student', '+91 98765 43210', 'active');
 
       INSERT INTO hostels (id, name, code, type, total_floors, warden_id, contact_number, address, description, status) VALUES
       (1, 'Olympus Hall (North Wing)', 'OLY-NORTH', 'boys', 4, 2, '+1 (555) 234-8001', 'North Campus Quad, Block A', 'Modern hostel facility with high-speed fiber internet and attached cafeteria.', 'active'),

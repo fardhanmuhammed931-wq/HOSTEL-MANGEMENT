@@ -43,19 +43,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed })
       label: 'Students',
       path: '/students',
       icon: Users,
-      roles: ['admin', 'warden'],
+      roles: ['admin', 'warden', 'student'],
     },
     {
       label: 'Rooms',
       path: '/rooms',
       icon: Bed,
-      roles: ['admin', 'warden'],
+      roles: ['admin', 'warden', 'student'],
     },
     {
       label: 'Hostel',
       path: '/hostels',
       icon: Building2,
-      roles: ['admin', 'warden'],
+      roles: ['admin', 'warden', 'student'],
     },
     {
       label: 'Complaints',
