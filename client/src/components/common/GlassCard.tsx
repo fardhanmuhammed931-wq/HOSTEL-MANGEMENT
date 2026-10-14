@@ -5,7 +5,8 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   hoverEffect?: boolean;
   glow?: boolean;
-  gradient?: 'blue' | 'purple' | 'cyan' | 'none';
+  gradient?: 'blue' | 'purple' | 'cyan' | 'emerald' | 'amber' | 'rose' | 'none';
+  variant?: 'primary' | 'subtle' | 'well';
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({
@@ -14,27 +15,37 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   hoverEffect = false,
   glow = false,
   gradient = 'none',
+  variant = 'primary',
   ...props
 }) => {
   let gradientClass = '';
-  if (gradient === 'blue') gradientClass = 'bg-gradient-to-br from-blue-900/20 to-slate-900/40';
-  else if (gradient === 'purple') gradientClass = 'bg-gradient-to-br from-purple-900/20 to-slate-900/40';
-  else if (gradient === 'cyan') gradientClass = 'bg-gradient-to-br from-cyan-900/20 to-slate-900/40';
+  if (gradient === 'blue') gradientClass = 'bg-gradient-to-br from-blue-500/10 via-transparent to-transparent';
+  else if (gradient === 'purple') gradientClass = 'bg-gradient-to-br from-purple-500/10 via-transparent to-transparent';
+  else if (gradient === 'cyan') gradientClass = 'bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent';
+  else if (gradient === 'emerald') gradientClass = 'bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent';
+  else if (gradient === 'amber') gradientClass = 'bg-gradient-to-br from-amber-500/10 via-transparent to-transparent';
+  else if (gradient === 'rose') gradientClass = 'bg-gradient-to-br from-rose-500/10 via-transparent to-transparent';
+
+  const baseVariant = 
+    variant === 'subtle' ? 'liquid-glass-subtle' :
+    variant === 'well' ? 'liquid-well' :
+    'liquid-glass';
 
   return (
     <div
       className={`
-        relative rounded-2xl border border-white/10 dark:border-white/10
-        bg-slate-900/60 dark:bg-slate-900/60 backdrop-blur-xl
-        p-6 shadow-glass text-slate-100
-        transition-all duration-300
-        ${hoverEffect ? 'hover:-translate-y-1 hover:border-cyan-500/30 hover:shadow-glass-hover' : ''}
-        ${glow ? 'shadow-glass-glow border-cyan-500/40' : ''}
+        relative rounded-3xl p-6 sm:p-7
+        ${baseVariant}
+        text-slate-900 dark:text-slate-100
+        ${hoverEffect ? 'hover:-translate-y-1 hover:shadow-liquid-hover cursor-pointer' : ''}
+        ${glow ? 'shadow-liquid-glow border-cyan-400/40 dark:border-cyan-400/30' : ''}
         ${gradientClass}
         ${className}
       `}
       {...props}
     >
+      {/* Specular sheen gradient overlay */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/50 dark:via-white/20 to-transparent pointer-events-none rounded-t-3xl" />
       {children}
     </div>
   );

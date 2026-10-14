@@ -161,10 +161,10 @@ export const MaintenanceList: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Maintenance & Complaints
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Submit facility repair tickets, assign staff dispatch, and record resolutions.
           </p>
         </div>
@@ -185,7 +185,7 @@ export const MaintenanceList: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <Input
             placeholder="Search ticket, title, student, room..."
@@ -236,7 +236,7 @@ export const MaintenanceList: React.FC = () => {
       </GlassCard>
 
       {/* Complaints Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -254,60 +254,60 @@ export const MaintenanceList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Ticket</th>
-                  <th className="py-3.5 px-4">Room & Hostel</th>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Category & Title</th>
-                  <th className="py-3.5 px-4">Priority</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  {user?.role !== 'student' && <th className="py-3.5 px-4 text-right">Actions</th>}
+                  <th className="py-4 px-5">Ticket</th>
+                  <th className="py-4 px-5">Room & Hostel</th>
+                  <th className="py-4 px-5">Student</th>
+                  <th className="py-4 px-5">Category & Title</th>
+                  <th className="py-4 px-5">Priority</th>
+                  <th className="py-4 px-5">Status</th>
+                  {user?.role !== 'student' && <th className="py-4 px-5 text-right">Actions</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {requests.map((ticket) => (
-                  <tr key={ticket.id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3.5 px-4 font-mono font-bold text-cyan-300">
+                  <tr key={ticket.id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5 font-mono font-bold text-primary-600 dark:text-primary-300">
                       {ticket.ticket_number}
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 text-white font-semibold">
-                        <Building className="w-3.5 h-3.5 text-cyan-400" />
+                    <td className="py-4 px-5">
+                      <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-semibold">
+                        <Building className="w-3.5 h-3.5 text-primary-500" />
                         <span>Room {ticket.room_number}</span>
                       </div>
-                      <span className="text-[10px] text-slate-400">{ticket.hostel_name}</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400">{ticket.hostel_name}</span>
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <p className="font-semibold text-white">{ticket.student_name}</p>
+                    <td className="py-4 px-5">
+                      <p className="font-semibold text-slate-900 dark:text-white">{ticket.student_name}</p>
                       <p className="text-slate-400 font-mono text-[11px]">{ticket.student_code}</p>
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <span className="text-[10px] font-semibold uppercase text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+                    <td className="py-4 px-5">
+                      <span className="text-[10px] font-semibold uppercase text-primary-600 dark:text-primary-300 bg-primary-500/10 px-2 py-0.5 rounded-full border border-primary-500/20">
                         {ticket.category.replace(/_/g, ' ')}
                       </span>
-                      <p className="font-bold text-white mt-1">{ticket.title}</p>
-                      <p className="text-slate-400 text-[11px] max-w-sm line-clamp-1">{ticket.description}</p>
+                      <p className="font-bold text-slate-900 dark:text-white mt-1.5">{ticket.title}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px] max-w-sm line-clamp-1">{ticket.description}</p>
                       {ticket.resolution_notes && (
-                        <p className="text-[11px] text-emerald-400 mt-1 italic">
+                        <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 italic">
                           Resolution: {ticket.resolution_notes}
                         </p>
                       )}
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={ticket.priority} size="sm" />
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={ticket.status} size="sm" />
                     </td>
 
                     {user?.role !== 'student' && (
-                      <td className="py-3.5 px-4 text-right">
+                      <td className="py-4 px-5 text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -324,7 +324,7 @@ export const MaintenanceList: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
 
       {/* Submit Complaint Modal */}
       <Modal
@@ -385,12 +385,12 @@ export const MaintenanceList: React.FC = () => {
           />
 
           <div className="w-full">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1.5">
               Detailed Description *
             </label>
             <textarea
               rows={3}
-              className="w-full rounded-xl bg-slate-900/60 border border-white/10 text-slate-100 placeholder-slate-500 text-sm p-3 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+              className="w-full rounded-2xl liquid-well border border-black/10 dark:border-white/10 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm p-3.5 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/40 transition-all"
               placeholder="Provide exact details of the malfunction or issue..."
               value={createForm.description}
               onChange={(e) => setCreateForm({ ...createForm, description: e.target.value })}
@@ -398,7 +398,7 @@ export const MaintenanceList: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsSubmitModalOpen(false)}>
               Cancel
             </Button>
@@ -444,19 +444,19 @@ export const MaintenanceList: React.FC = () => {
           </div>
 
           <div className="w-full">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1.5">
               Resolution Notes / Action Taken
             </label>
             <textarea
               rows={3}
-              className="w-full rounded-xl bg-slate-900/60 border border-white/10 text-slate-100 placeholder-slate-500 text-sm p-3 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+              className="w-full rounded-2xl liquid-well border border-black/10 dark:border-white/10 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm p-3.5 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/40 transition-all"
               placeholder="e.g. Replaced capacitor and checked speed switch. Working properly."
               value={updateForm.resolution_notes}
               onChange={(e) => setUpdateForm({ ...updateForm, resolution_notes: e.target.value })}
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsUpdateModalOpen(false)}>
               Cancel
             </Button>

@@ -28,14 +28,14 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <label
           htmlFor={inputId}
-          className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+          className="block text-xs font-semibold tracking-tight text-slate-600 dark:text-slate-300 mb-1.5"
         >
           {label}
         </label>
       )}
-      <div className="relative rounded-xl">
+      <div className="relative rounded-2xl">
         {leftIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
             {leftIcon}
           </div>
         )}
@@ -43,10 +43,12 @@ export const Input: React.FC<InputProps> = ({
           id={inputId}
           type={resolvedType}
           className={`
-            w-full rounded-xl bg-slate-900/60 border border-white/10
-            text-slate-100 placeholder-slate-500 text-sm
-            px-4 py-2.5 transition-all duration-200
-            focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+            w-full rounded-2xl bg-black/[0.03] dark:bg-white/[0.05]
+            backdrop-blur-xl border border-black/10 dark:border-white/12
+            text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500
+            text-sm px-4 py-2.5 transition-all duration-300 ease-spring
+            shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)]
+            focus:outline-none focus:border-cyan-500/80 focus:ring-4 focus:ring-cyan-500/15
             disabled:opacity-50 disabled:cursor-not-allowed
             ${leftIcon ? 'pl-10' : ''}
             ${isPassword ? 'pr-11' : ''}
@@ -59,7 +61,7 @@ export const Input: React.FC<InputProps> = ({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 focus:outline-none"
+            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus:outline-none"
             tabIndex={-1}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
@@ -67,7 +69,7 @@ export const Input: React.FC<InputProps> = ({
           </button>
         )}
       </div>
-      {error && <p className="mt-1 text-xs text-rose-400 font-medium">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium">{error}</p>}
     </div>
   );
 };

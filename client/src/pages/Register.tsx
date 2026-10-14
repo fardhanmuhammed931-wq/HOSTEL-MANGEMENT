@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Building2, Mail, Lock, User, Phone, ArrowRight, Shield, GraduationCap, CheckCircle } from 'lucide-react';
+import { Building2, Mail, Lock, User, Phone, ArrowRight, Shield, GraduationCap, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/api';
 import { useToast } from '../context/ToastContext';
@@ -62,7 +62,7 @@ export const Register: React.FC = () => {
       });
 
       if (res.data.success && res.data.data) {
-        success('Account created successfully! Welcome to Hostel Management.');
+        success('Account created successfully! Welcome to HostelSync ERP.');
         // Automatically log the user in with token and user object
         login(res.data.data.token, res.data.data.user);
         navigate('/');
@@ -79,39 +79,45 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-slate-950">
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 overflow-hidden bg-slate-900 dark:bg-[#040711] text-slate-100">
+      {/* Background Ambient Spheres */}
+      <div className="absolute top-1/5 left-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[140px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute bottom-1/5 right-1/4 w-[550px] h-[550px] bg-indigo-600/20 rounded-full blur-[150px] pointer-events-none animate-pulse-slow delay-1000" />
+      <div className="absolute top-1/2 right-1/3 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none" />
 
-      {/* Main Glass Card */}
-      <div className="relative w-full max-w-lg glass-card p-8 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-2xl my-8">
+      {/* Main VisionOS Liquid Glass Card */}
+      <div className="relative w-full max-w-xl rounded-3xl border border-white/20 dark:border-white/12 bg-white/10 dark:bg-slate-900/60 backdrop-blur-3xl backdrop-saturate-[200%] p-8 sm:p-10 shadow-2xl shadow-black/40 z-10 my-8 transition-all">
+        {/* Specular Top-Edge Rim */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 dark:via-white/25 to-transparent pointer-events-none rounded-t-3xl" />
+
         {/* Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex p-3 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-indigo-500/20 border border-white/10 shadow-inner mb-3">
-            <Building2 className="w-8 h-8 text-cyan-400" />
+        <div className="text-center mb-7">
+          <div className="inline-flex p-3.5 rounded-3xl bg-gradient-to-tr from-cyan-500 via-sky-500 to-blue-600 shadow-xl shadow-cyan-500/30 border border-white/30 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5)] mb-3.5">
+            <Building2 className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center justify-center gap-2">
             Create Your Account
+            <Sparkles className="w-4 h-4 text-cyan-400" />
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Join the Hostel Management System portal
+          <p className="text-sm text-slate-300/80 mt-1 tracking-tight">
+            Join the HostelSync ERP Residential Portal
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-5 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+          <div className="mb-6 p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-in fade-in">
+            <span className="w-2 h-2 rounded-full bg-rose-400 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Role Selection Tabs */}
-        <div className="mb-5">
-          <label className="block text-xs font-medium text-slate-300 mb-1.5">Select Account Role</label>
-          <div className="grid grid-cols-3 gap-2">
+        <div className="mb-6">
+          <label className="block text-xs font-semibold tracking-tight text-slate-300 mb-2">
+            Select Account Role
+          </label>
+          <div className="grid grid-cols-3 gap-2.5">
             {[
               { id: 'student', label: 'Student', icon: GraduationCap },
               { id: 'warden', label: 'Warden', icon: Building2 },
@@ -121,13 +127,13 @@ export const Register: React.FC = () => {
                 key={id}
                 type="button"
                 onClick={() => setFormData({ ...formData, role: id })}
-                className={`py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
+                className={`py-2.5 px-3 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 ${
                   formData.role === id
-                    ? 'bg-cyan-500/20 border-cyan-400/50 text-cyan-200 shadow-sm'
-                    : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
+                    ? 'bg-cyan-500/20 border-cyan-400/50 text-cyan-200 shadow-lg shadow-cyan-500/10'
+                    : 'bg-white/5 border-white/10 text-slate-300 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
                 <span>{label}</span>
               </button>
             ))}
@@ -145,7 +151,7 @@ export const Register: React.FC = () => {
             required
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <Input
               label="Email Address"
               name="email"
@@ -170,20 +176,20 @@ export const Register: React.FC = () => {
 
           {/* Student Specific Fields */}
           {formData.role === 'student' && (
-            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-cyan-400 flex items-center gap-1">
+            <div className="p-4 rounded-3xl bg-black/20 dark:bg-white/5 border border-white/10 space-y-3.5">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
                 <GraduationCap className="w-3.5 h-3.5" />
                 <span>Academic Profile</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Gender</label>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Gender</label>
                   <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
-                    className="w-full px-2.5 py-1.5 text-xs rounded-xl bg-slate-900/60 border border-white/10 text-slate-200 focus:outline-none focus:border-cyan-400"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-white/15 text-slate-200 focus:outline-none focus:border-cyan-400"
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -192,12 +198,12 @@ export const Register: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Year</label>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Year</label>
                   <select
                     name="academicYear"
                     value={formData.academicYear}
                     onChange={handleChange}
-                    className="w-full px-2.5 py-1.5 text-xs rounded-xl bg-slate-900/60 border border-white/10 text-slate-200 focus:outline-none focus:border-cyan-400"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-white/15 text-slate-200 focus:outline-none focus:border-cyan-400"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
@@ -207,38 +213,38 @@ export const Register: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Department</label>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Department</label>
                   <input
                     type="text"
                     name="department"
                     value={formData.department}
                     onChange={handleChange}
                     placeholder="e.g. Computer Science"
-                    className="w-full px-2.5 py-1.5 text-xs rounded-xl bg-slate-900/60 border border-white/10 text-slate-200 focus:outline-none focus:border-cyan-400"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-white/15 text-slate-200 focus:outline-none focus:border-cyan-400 placeholder-slate-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Degree / Course</label>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Degree / Course</label>
                   <input
                     type="text"
                     name="course"
                     value={formData.course}
                     onChange={handleChange}
                     placeholder="e.g. B.Tech CS"
-                    className="w-full px-2.5 py-1.5 text-xs rounded-xl bg-slate-900/60 border border-white/10 text-slate-200 focus:outline-none focus:border-cyan-400"
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-white/15 text-slate-200 focus:outline-none focus:border-cyan-400 placeholder-slate-500"
                   />
                 </div>
               </div>
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <Input
               label="Password"
               name="password"
-              type="password"
+              isPassword
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
@@ -249,7 +255,7 @@ export const Register: React.FC = () => {
             <Input
               label="Confirm Password"
               name="confirmPassword"
-              type="password"
+              isPassword
               placeholder="••••••••"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -261,7 +267,8 @@ export const Register: React.FC = () => {
           <Button
             type="submit"
             variant="primary"
-            className="w-full py-3 text-sm font-semibold shadow-lg shadow-cyan-500/25 mt-2"
+            size="lg"
+            className="w-full py-3.5 text-sm font-semibold shadow-xl shadow-cyan-500/25 mt-3"
             isLoading={isLoading}
             rightIcon={<ArrowRight className="w-4 h-4" />}
           >
@@ -270,8 +277,8 @@ export const Register: React.FC = () => {
         </form>
 
         {/* Footer Link to Login */}
-        <div className="mt-6 pt-4 border-t border-white/10 text-center">
-          <p className="text-xs text-slate-400">
+        <div className="mt-6 pt-5 border-t border-white/10 text-center">
+          <p className="text-xs text-slate-300/80">
             Already have an account?{' '}
             <Link
               to="/login"

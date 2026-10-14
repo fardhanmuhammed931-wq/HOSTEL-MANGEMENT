@@ -62,10 +62,10 @@ export const PaymentHistory: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Payment Receipts & History
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Audit log of verified hostel fee receipts, payment gateways, and printable invoices.
           </p>
         </div>
@@ -81,7 +81,7 @@ export const PaymentHistory: React.FC = () => {
       </div>
 
       {/* Filter and Search */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="sm:col-span-2">
             <Input
@@ -107,7 +107,7 @@ export const PaymentHistory: React.FC = () => {
       </GlassCard>
 
       {/* Payments Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -123,40 +123,40 @@ export const PaymentHistory: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Receipt Number</th>
-                  <th className="py-3.5 px-4">Date</th>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Category & Period</th>
-                  <th className="py-3.5 px-4">Method & Ref</th>
-                  <th className="py-3.5 px-4">Amount Paid</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-4 px-5">Receipt Number</th>
+                  <th className="py-4 px-5">Date</th>
+                  <th className="py-4 px-5">Student</th>
+                  <th className="py-4 px-5">Category & Period</th>
+                  <th className="py-4 px-5">Method & Ref</th>
+                  <th className="py-4 px-5">Amount Paid</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {payments.map((p) => (
-                  <tr key={p.id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3.5 px-4 font-mono font-bold text-cyan-300">
+                  <tr key={p.id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5 font-mono font-bold text-primary-600 dark:text-primary-300">
                       {p.receipt_number}
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-300">{p.payment_date}</td>
+                    <td className="py-4 px-5 text-slate-600 dark:text-slate-300">{p.payment_date}</td>
 
-                    <td className="py-3.5 px-4">
-                      <p className="font-semibold text-white">{p.student_name}</p>
+                    <td className="py-4 px-5">
+                      <p className="font-semibold text-slate-900 dark:text-white">{p.student_name}</p>
                       <p className="text-slate-400 font-mono text-[11px]">{p.student_code}</p>
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <p className="capitalize text-slate-200 font-medium">
+                    <td className="py-4 px-5">
+                      <p className="capitalize text-slate-800 dark:text-slate-200 font-medium">
                         {p.fee_category ? p.fee_category.replace(/_/g, ' ') : 'Hostel Fee'}
                       </p>
-                      <p className="text-slate-400 text-[11px]">{p.academic_period}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px]">{p.academic_period}</p>
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <span className="font-mono uppercase font-semibold text-slate-300">
+                    <td className="py-4 px-5">
+                      <span className="font-mono uppercase font-semibold text-slate-700 dark:text-slate-300">
                         {p.payment_method}
                       </span>
                       {p.transaction_reference && (
@@ -166,11 +166,11 @@ export const PaymentHistory: React.FC = () => {
                       )}
                     </td>
 
-                    <td className="py-3.5 px-4 font-mono font-bold text-emerald-400 text-sm">
+                    <td className="py-4 px-5 font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                       +${Number(p.amount).toFixed(2)}
                     </td>
 
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-4 px-5 text-right">
                       <Button
                         variant="glass"
                         size="sm"
@@ -186,7 +186,7 @@ export const PaymentHistory: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
 
       {/* Printable Receipt Modal */}
       <ReceiptModal

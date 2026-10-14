@@ -81,10 +81,10 @@ export const HostelList: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Hostel Buildings
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Residential hall wings, warden leadership, and occupancy limits.
           </p>
         </div>
@@ -116,38 +116,42 @@ export const HostelList: React.FC = () => {
             const occPercent = cap > 0 ? Math.round((occ / cap) * 100) : 0;
 
             return (
-              <GlassCard key={h.id} hoverEffect className="flex flex-col justify-between">
+              <GlassCard
+                key={h.id}
+                hoverEffect
+                className="flex flex-col justify-between p-6 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg"
+              >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/20">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary-600 dark:text-primary-300 bg-primary-500/10 dark:bg-primary-500/20 px-2.5 py-0.5 rounded-full border border-primary-500/20">
                         {h.code}
                       </span>
-                      <h3 className="text-lg font-bold text-white mt-1.5">{h.name}</h3>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5">{h.name}</h3>
                     </div>
                     <Badge status={h.status} size="sm" />
                   </div>
 
-                  <p className="text-xs text-slate-400 mb-4 line-clamp-2">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
                     {h.description || 'Modern residential living facility with student support amenities.'}
                   </p>
 
                   {/* Occupancy Progress */}
-                  <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 mb-4">
+                  <div className="p-3.5 rounded-2xl liquid-well border border-black/5 dark:border-white/5 mb-4">
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="text-slate-400 font-medium">Bed Occupancy</span>
-                      <span className="font-bold text-white">
+                      <span className="text-slate-500 dark:text-slate-400 font-medium">Bed Occupancy</span>
+                      <span className="font-bold text-slate-900 dark:text-white font-mono">
                         {occ} / {cap} Beds ({occPercent}%)
                       </span>
                     </div>
-                    <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-2 overflow-hidden">
                       <div
                         className={`h-2 rounded-full transition-all duration-500 ${
                           occPercent >= 90
-                            ? 'bg-rose-500'
+                            ? 'bg-rose-500 shadow-sm shadow-rose-500/30'
                             : occPercent >= 70
-                            ? 'bg-amber-500'
-                            : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                            ? 'bg-amber-500 shadow-sm shadow-amber-500/30'
+                            : 'bg-gradient-to-r from-primary-500 to-indigo-500 shadow-sm shadow-primary-500/30'
                         }`}
                         style={{ width: `${Math.min(100, occPercent)}%` }}
                       />
@@ -156,37 +160,37 @@ export const HostelList: React.FC = () => {
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-3 text-xs mb-4">
-                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5">
-                      <p className="text-slate-400 flex items-center gap-1">
-                        <Bed className="w-3.5 h-3.5 text-cyan-400" /> Total Rooms
+                    <div className="p-3 rounded-2xl liquid-well border border-black/5 dark:border-white/5">
+                      <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                        <Bed className="w-3.5 h-3.5 text-primary-500" /> Total Rooms
                       </p>
-                      <p className="font-bold text-white text-sm mt-0.5">{h.total_rooms || 0}</p>
+                      <p className="font-bold text-slate-900 dark:text-white text-sm mt-0.5 font-mono">{h.total_rooms || 0}</p>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5">
-                      <p className="text-slate-400 flex items-center gap-1">
-                        <Building2 className="w-3.5 h-3.5 text-cyan-400" /> Floors
+                    <div className="p-3 rounded-2xl liquid-well border border-black/5 dark:border-white/5">
+                      <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                        <Building2 className="w-3.5 h-3.5 text-primary-500" /> Floors
                       </p>
-                      <p className="font-bold text-white text-sm mt-0.5">{h.total_floors} Floors</p>
+                      <p className="font-bold text-slate-900 dark:text-white text-sm mt-0.5">{h.total_floors} Floors</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Footer: Warden & Contact */}
-                <div className="pt-3 border-t border-white/10 text-xs text-slate-400 space-y-1">
-                  <p className="flex items-center gap-1.5 text-slate-300">
-                    <Shield className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                    <span>Warden: <strong>{h.warden_name || 'Assigned Staff'}</strong></span>
+                <div className="pt-3.5 border-t border-black/5 dark:border-white/10 text-xs text-slate-500 dark:text-slate-400 space-y-1.5">
+                  <p className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+                    <Shield className="w-3.5 h-3.5 text-primary-500 flex-shrink-0" />
+                    <span>Warden: <strong className="text-slate-900 dark:text-white">{h.warden_name || 'Assigned Staff'}</strong></span>
                   </p>
                   {h.contact_number && (
                     <p className="flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
+                      <Phone className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 flex-shrink-0" />
                       <span>{h.contact_number}</span>
                     </p>
                   )}
                   {h.address && (
                     <p className="flex items-center gap-1.5 text-[11px] truncate">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 flex-shrink-0" />
                       <span className="truncate">{h.address}</span>
                     </p>
                   )}
@@ -263,7 +267,7 @@ export const HostelList: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsAddModalOpen(false)}>
               Cancel
             </Button>

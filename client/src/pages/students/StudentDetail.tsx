@@ -6,11 +6,6 @@ import {
   Phone,
   Building,
   Calendar,
-  User,
-  Shield,
-  CreditCard,
-  Wrench,
-  Clock,
   Printer,
 } from 'lucide-react';
 import { studentService } from '../../services/api';
@@ -60,8 +55,8 @@ export const StudentDetail: React.FC = () => {
   if (!student) {
     return (
       <GlassCard className="text-center py-12">
-        <h3 className="text-lg font-bold text-white mb-2">Student Not Found</h3>
-        <p className="text-slate-400 text-sm mb-4">The requested student profile could not be located.</p>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Student Not Found</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">The requested student profile could not be located.</p>
         <Button variant="primary" onClick={() => navigate('/students')}>
           Return to Student Directory
         </Button>
@@ -74,7 +69,7 @@ export const StudentDetail: React.FC = () => {
       {/* Top Header */}
       <div className="flex items-center gap-3">
         <Button
-          variant="ghost"
+          variant="secondary"
           size="sm"
           leftIcon={<ArrowLeft className="w-4 h-4" />}
           onClick={() => navigate('/students')}
@@ -85,17 +80,17 @@ export const StudentDetail: React.FC = () => {
 
       {/* Main Student Header Card */}
       <GlassCard className="p-6 sm:p-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-black/5 dark:border-white/10">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-extrabold text-white text-2xl shadow-xl shadow-cyan-500/25 border border-cyan-400/30 flex-shrink-0">
+            <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-cyan-500 via-sky-500 to-blue-600 flex items-center justify-center font-extrabold text-white text-2xl shadow-xl shadow-cyan-500/25 border border-white/30 flex-shrink-0">
               {student.full_name?.charAt(0)}
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <h2 className="text-2xl font-extrabold text-white">{student.full_name}</h2>
+                <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">{student.full_name}</h2>
                 <Badge status={student.status} />
               </div>
-              <p className="text-sm font-mono text-cyan-300 font-semibold mt-1">
+              <p className="text-sm font-mono text-cyan-600 dark:text-cyan-400 font-semibold mt-1">
                 {student.student_id} &bull; {student.department} ({student.course})
               </p>
             </div>
@@ -105,13 +100,13 @@ export const StudentDetail: React.FC = () => {
           <div className="flex flex-col md:items-end">
             <span className="text-xs uppercase font-semibold text-slate-400 mb-1">Current Residence</span>
             {student.room_number ? (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm font-semibold">
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold shadow-sm">
                 <Building className="w-4 h-4" />
                 <span>{student.hostel_name} &bull; Room {student.room_number}</span>
-                {student.bed_number && <span className="text-xs text-emerald-400">({student.bed_number})</span>}
+                {student.bed_number && <span className="text-xs text-emerald-500">({student.bed_number})</span>}
               </div>
             ) : (
-              <span className="text-sm text-slate-500 italic bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
+              <span className="text-sm text-slate-400 italic bg-black/[0.03] dark:bg-white/5 px-3 py-1.5 rounded-2xl border border-black/5 dark:border-white/5">
                 No active room allocated
               </span>
             )}
@@ -120,63 +115,63 @@ export const StudentDetail: React.FC = () => {
 
         {/* Info Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-6 text-xs">
-          <div>
-            <p className="text-slate-400 font-medium">Email Address</p>
-            <p className="text-slate-200 font-semibold flex items-center gap-1.5 mt-1">
-              <Mail className="w-3.5 h-3.5 text-cyan-400" /> {student.email}
+          <div className="p-3.5 rounded-2xl liquid-well">
+            <p className="text-slate-400 dark:text-slate-500 uppercase font-bold text-[10px] tracking-wider">Email Address</p>
+            <p className="text-slate-900 dark:text-slate-100 font-semibold flex items-center gap-1.5 mt-1 truncate">
+              <Mail className="w-3.5 h-3.5 text-cyan-500" /> {student.email}
             </p>
           </div>
-          <div>
-            <p className="text-slate-400 font-medium">Phone Number</p>
-            <p className="text-slate-200 font-semibold flex items-center gap-1.5 mt-1">
-              <Phone className="w-3.5 h-3.5 text-cyan-400" /> {student.phone}
+          <div className="p-3.5 rounded-2xl liquid-well">
+            <p className="text-slate-400 dark:text-slate-500 uppercase font-bold text-[10px] tracking-wider">Phone Number</p>
+            <p className="text-slate-900 dark:text-slate-100 font-semibold flex items-center gap-1.5 mt-1">
+              <Phone className="w-3.5 h-3.5 text-cyan-500" /> {student.phone}
             </p>
           </div>
-          <div>
-            <p className="text-slate-400 font-medium">Guardian Name & Phone</p>
-            <p className="text-slate-200 font-semibold mt-1">
+          <div className="p-3.5 rounded-2xl liquid-well">
+            <p className="text-slate-400 dark:text-slate-500 uppercase font-bold text-[10px] tracking-wider">Guardian Contact</p>
+            <p className="text-slate-900 dark:text-slate-100 font-semibold mt-1 truncate">
               {student.guardian_name} ({student.guardian_phone})
             </p>
           </div>
-          <div>
-            <p className="text-slate-400 font-medium">Admission Date</p>
-            <p className="text-slate-200 font-semibold flex items-center gap-1.5 mt-1">
-              <Calendar className="w-3.5 h-3.5 text-cyan-400" /> {student.admission_date}
+          <div className="p-3.5 rounded-2xl liquid-well">
+            <p className="text-slate-400 dark:text-slate-500 uppercase font-bold text-[10px] tracking-wider">Admission Date</p>
+            <p className="text-slate-900 dark:text-slate-100 font-semibold flex items-center gap-1.5 mt-1">
+              <Calendar className="w-3.5 h-3.5 text-cyan-500" /> {student.admission_date}
             </p>
           </div>
         </div>
       </GlassCard>
 
       {/* Tab Navigation */}
-      <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl liquid-glass-subtle w-fit border border-black/5 dark:border-white/10">
         <button
           onClick={() => setActiveTab('allocations')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 ${
             activeTab === 'allocations'
-              ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'liquid-nav-active text-cyan-600 dark:text-cyan-300 font-bold shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
-          Room Allocation History ({student.allocations?.length || 0})
+          Room Allocations ({student.allocations?.length || 0})
         </button>
 
         <button
           onClick={() => setActiveTab('fees')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 ${
             activeTab === 'fees'
-              ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'liquid-nav-active text-cyan-600 dark:text-cyan-300 font-bold shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
-          Fee Records & Payments ({student.payments?.length || 0})
+          Fee Records ({student.payments?.length || 0})
         </button>
 
         <button
           onClick={() => setActiveTab('complaints')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 ${
             activeTab === 'complaints'
-              ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'liquid-nav-active text-cyan-600 dark:text-cyan-300 font-bold shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           Maintenance Tickets ({student.complaints?.length || 0})
@@ -188,27 +183,27 @@ export const StudentDetail: React.FC = () => {
         <GlassCard className="p-0 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3 px-4">Hostel & Room</th>
-                  <th className="py-3 px-4">Bed</th>
-                  <th className="py-3 px-4">Period</th>
-                  <th className="py-3 px-4">Allocated By</th>
-                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3.5 px-5">Hostel & Room</th>
+                  <th className="py-3.5 px-5">Bed</th>
+                  <th className="py-3.5 px-5">Period</th>
+                  <th className="py-3.5 px-5">Allocated By</th>
+                  <th className="py-3.5 px-5">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {student.allocations?.map((a: any) => (
-                  <tr key={a.id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3.5 px-4 font-semibold text-white">
+                  <tr key={a.id} className="liquid-table-row text-xs">
+                    <td className="py-3.5 px-5 font-semibold text-slate-900 dark:text-white">
                       {a.hostel_name} - Room {a.room_number}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-300 font-mono">{a.bed_number || 'Standard'}</td>
-                    <td className="py-3.5 px-4 text-slate-300">
+                    <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300 font-mono">{a.bed_number || 'Standard'}</td>
+                    <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">
                       {a.start_date} &rarr; {a.checkout_date || a.end_date || 'Present'}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-300">{a.allocated_by_name || 'Staff'}</td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{a.allocated_by_name || 'Staff'}</td>
+                    <td className="py-3.5 px-5">
                       <Badge status={a.status} size="sm" />
                     </td>
                   </tr>
@@ -223,36 +218,36 @@ export const StudentDetail: React.FC = () => {
       {activeTab === 'fees' && (
         <div className="space-y-6">
           <GlassCard className="p-0 overflow-hidden">
-            <div className="p-4 border-b border-white/10 bg-slate-800/40">
-              <h4 className="text-sm font-bold text-white">Fee Obligations</h4>
+            <div className="p-4 border-b border-black/5 dark:border-white/10 bg-black/[0.01] dark:bg-white/[0.02]">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">Fee Obligations</h4>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-800/60 uppercase text-slate-400">
+                <thead className="bg-black/[0.02] dark:bg-white/[0.03] uppercase text-slate-500 dark:text-slate-400 font-bold">
                   <tr>
-                    <th className="py-2.5 px-4">Category</th>
-                    <th className="py-2.5 px-4">Period</th>
-                    <th className="py-2.5 px-4">Amount Due</th>
-                    <th className="py-2.5 px-4">Amount Paid</th>
-                    <th className="py-2.5 px-4">Balance</th>
-                    <th className="py-2.5 px-4">Due Date</th>
-                    <th className="py-2.5 px-4">Status</th>
+                    <th className="py-3 px-5">Category</th>
+                    <th className="py-3 px-5">Period</th>
+                    <th className="py-3 px-5">Amount Due</th>
+                    <th className="py-3 px-5">Amount Paid</th>
+                    <th className="py-3 px-5">Balance</th>
+                    <th className="py-3 px-5">Due Date</th>
+                    <th className="py-3 px-5">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/5 dark:divide-white/5">
                   {student.feeRecords?.map((f: any) => (
-                    <tr key={f.id} className="hover:bg-white/5">
-                      <td className="py-3 px-4 font-semibold text-white capitalize">
+                    <tr key={f.id} className="liquid-table-row">
+                      <td className="py-3.5 px-5 font-semibold text-slate-900 dark:text-white capitalize">
                         {f.fee_category.replace(/_/g, ' ')}
                       </td>
-                      <td className="py-3 px-4 text-slate-300">{f.academic_period}</td>
-                      <td className="py-3 px-4 text-slate-300 font-mono">${f.amount_due}</td>
-                      <td className="py-3 px-4 text-emerald-400 font-mono font-semibold">${f.amount_paid}</td>
-                      <td className="py-3 px-4 text-rose-400 font-mono font-semibold">
+                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{f.academic_period}</td>
+                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300 font-mono">${f.amount_due}</td>
+                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-semibold">${f.amount_paid}</td>
+                      <td className="py-3.5 px-5 text-rose-600 dark:text-rose-400 font-mono font-semibold">
                         ${(f.amount_due - f.amount_paid).toFixed(2)}
                       </td>
-                      <td className="py-3 px-4 text-slate-300">{f.due_date}</td>
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{f.due_date}</td>
+                      <td className="py-3.5 px-5">
                         <Badge status={f.status} size="sm" />
                       </td>
                     </tr>
@@ -263,28 +258,28 @@ export const StudentDetail: React.FC = () => {
           </GlassCard>
 
           <GlassCard className="p-0 overflow-hidden">
-            <div className="p-4 border-b border-white/10 bg-slate-800/40">
-              <h4 className="text-sm font-bold text-white">Payment Receipts History</h4>
+            <div className="p-4 border-b border-black/5 dark:border-white/10 bg-black/[0.01] dark:bg-white/[0.02]">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">Payment Receipts History</h4>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-800/60 uppercase text-slate-400">
+                <thead className="bg-black/[0.02] dark:bg-white/[0.03] uppercase text-slate-500 dark:text-slate-400 font-bold">
                   <tr>
-                    <th className="py-2.5 px-4">Receipt No</th>
-                    <th className="py-2.5 px-4">Date</th>
-                    <th className="py-2.5 px-4">Method</th>
-                    <th className="py-2.5 px-4">Amount Paid</th>
-                    <th className="py-2.5 px-4 text-right">Receipt</th>
+                    <th className="py-3 px-5">Receipt No</th>
+                    <th className="py-3 px-5">Date</th>
+                    <th className="py-3 px-5">Method</th>
+                    <th className="py-3 px-5">Amount Paid</th>
+                    <th className="py-3 px-5 text-right">Receipt</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/5 dark:divide-white/5">
                   {student.payments?.map((p: any) => (
-                    <tr key={p.id} className="hover:bg-white/5">
-                      <td className="py-3 px-4 font-mono font-semibold text-cyan-300">{p.receipt_number}</td>
-                      <td className="py-3 px-4 text-slate-300">{p.payment_date}</td>
-                      <td className="py-3 px-4 uppercase text-slate-300">{p.payment_method}</td>
-                      <td className="py-3 px-4 text-emerald-400 font-mono font-bold">${p.amount}</td>
-                      <td className="py-3 px-4 text-right">
+                    <tr key={p.id} className="liquid-table-row">
+                      <td className="py-3.5 px-5 font-mono font-semibold text-cyan-600 dark:text-cyan-400">{p.receipt_number}</td>
+                      <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300">{p.payment_date}</td>
+                      <td className="py-3.5 px-5 uppercase text-slate-600 dark:text-slate-300 font-medium">{p.payment_method}</td>
+                      <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-mono font-bold">${p.amount}</td>
+                      <td className="py-3.5 px-5 text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -308,28 +303,28 @@ export const StudentDetail: React.FC = () => {
         <GlassCard className="p-0 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3 px-4">Ticket</th>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4">Title & Details</th>
-                  <th className="py-3 px-4">Priority</th>
-                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3.5 px-5">Ticket</th>
+                  <th className="py-3.5 px-5">Category</th>
+                  <th className="py-3.5 px-5">Title & Details</th>
+                  <th className="py-3.5 px-5">Priority</th>
+                  <th className="py-3.5 px-5">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {student.complaints?.map((c: any) => (
-                  <tr key={c.id} className="hover:bg-white/5 text-xs">
-                    <td className="py-3.5 px-4 font-mono font-semibold text-cyan-300">{c.ticket_number}</td>
-                    <td className="py-3.5 px-4 capitalize text-slate-300">{c.category}</td>
-                    <td className="py-3.5 px-4">
-                      <p className="font-semibold text-white">{c.title}</p>
-                      <p className="text-slate-400 text-[11px] max-w-md line-clamp-1">{c.description}</p>
+                  <tr key={c.id} className="liquid-table-row text-xs">
+                    <td className="py-3.5 px-5 font-mono font-semibold text-cyan-600 dark:text-cyan-400">{c.ticket_number}</td>
+                    <td className="py-3.5 px-5 capitalize text-slate-600 dark:text-slate-300">{c.category}</td>
+                    <td className="py-3.5 px-5">
+                      <p className="font-semibold text-slate-900 dark:text-white">{c.title}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px] max-w-md line-clamp-1">{c.description}</p>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3.5 px-5">
                       <Badge status={c.priority} size="sm" />
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3.5 px-5">
                       <Badge status={c.status} size="sm" />
                     </td>
                   </tr>

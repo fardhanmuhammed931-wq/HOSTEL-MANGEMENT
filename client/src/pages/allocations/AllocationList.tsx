@@ -186,10 +186,10 @@ export const AllocationList: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Room Allocations
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Capacity-controlled bed assignment workflow, room transfers, and check-out management.
           </p>
         </div>
@@ -205,7 +205,7 @@ export const AllocationList: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <Input
             placeholder="Search student, ID, or room..."
@@ -237,7 +237,7 @@ export const AllocationList: React.FC = () => {
       </GlassCard>
 
       {/* Allocations Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -255,54 +255,54 @@ export const AllocationList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Student ID</th>
-                  <th className="py-3.5 px-4">Allocated Room</th>
-                  <th className="py-3.5 px-4">Bed No</th>
-                  <th className="py-3.5 px-4">Allocation Period</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-4 px-5">Student</th>
+                  <th className="py-4 px-5">Student ID</th>
+                  <th className="py-4 px-5">Allocated Room</th>
+                  <th className="py-4 px-5">Bed No</th>
+                  <th className="py-4 px-5">Allocation Period</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {allocations.map((alloc) => (
-                  <tr key={alloc.id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3.5 px-4">
-                      <p className="font-semibold text-white">{alloc.student_name}</p>
+                  <tr key={alloc.id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5">
+                      <p className="font-semibold text-slate-900 dark:text-white">{alloc.student_name}</p>
                       <p className="text-slate-400 text-[11px]">{alloc.student_email}</p>
                     </td>
 
-                    <td className="py-3.5 px-4 font-mono font-semibold text-cyan-300">
+                    <td className="py-4 px-5 font-mono font-semibold text-primary-600 dark:text-primary-300">
                       {alloc.student_code}
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 text-white font-semibold">
-                        <Building className="w-3.5 h-3.5 text-cyan-400" />
+                    <td className="py-4 px-5">
+                      <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-semibold">
+                        <Building className="w-3.5 h-3.5 text-primary-500" />
                         <span>{alloc.hostel_name} &bull; Room {alloc.room_number}</span>
                       </div>
-                      <span className="text-[10px] text-slate-400 capitalize">Floor {alloc.floor} ({alloc.room_type})</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 capitalize">Floor {alloc.floor} ({alloc.room_type})</span>
                     </td>
 
-                    <td className="py-3.5 px-4 font-mono text-slate-300">
+                    <td className="py-4 px-5 font-mono text-slate-700 dark:text-slate-300">
                       {alloc.bed_number || 'Standard'}
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-300">
+                    <td className="py-4 px-5 text-slate-700 dark:text-slate-300">
                       <span>{alloc.start_date}</span>
-                      <span className="text-slate-500 mx-1">&rarr;</span>
-                      <span className={alloc.checkout_date ? 'text-amber-400' : 'text-emerald-400'}>
+                      <span className="text-slate-400 mx-1.5">&rarr;</span>
+                      <span className={alloc.checkout_date ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400 font-medium'}>
                         {alloc.checkout_date || alloc.end_date || 'Active'}
                       </span>
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={alloc.status} size="sm" />
                     </td>
 
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-4 px-5 text-right">
                       {alloc.status === 'active' ? (
                         <div className="flex items-center justify-end gap-1.5">
                           <button
@@ -310,7 +310,7 @@ export const AllocationList: React.FC = () => {
                               setSelectedAllocation(alloc);
                               setIsTransferModalOpen(true);
                             }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                            className="p-1.5 rounded-xl text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-500/10 transition-colors"
                             title="Transfer Room"
                             aria-label="Transfer room"
                           >
@@ -322,7 +322,7 @@ export const AllocationList: React.FC = () => {
                               setSelectedAllocation(alloc);
                               setIsCheckoutDialogOpen(true);
                             }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                            className="p-1.5 rounded-xl text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                             title="Check Out Student"
                             aria-label="Check out student"
                           >
@@ -330,7 +330,7 @@ export const AllocationList: React.FC = () => {
                           </button>
                         </div>
                       ) : (
-                        <span className="text-slate-500 text-[11px] italic">Completed</span>
+                        <span className="text-slate-400 text-[11px] italic">Completed</span>
                       )}
                     </td>
                   </tr>
@@ -339,7 +339,7 @@ export const AllocationList: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
 
       {/* Allocate Room Modal */}
       <Modal
@@ -378,16 +378,16 @@ export const AllocationList: React.FC = () => {
           {/* Room Capacity Status Callout */}
           {targetRoom && (
             <div
-              className={`p-3 rounded-xl text-xs flex items-center justify-between border ${
+              className={`p-3.5 rounded-2xl text-xs flex items-center justify-between border ${
                 isRoomFull
-                  ? 'bg-rose-500/15 border-rose-500/30 text-rose-300'
-                  : 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
+                  ? 'bg-rose-500/15 border-rose-500/30 text-rose-600 dark:text-rose-300'
+                  : 'bg-emerald-500/15 border-emerald-500/30 text-emerald-600 dark:text-emerald-300'
               }`}
             >
               <span>
                 Capacity: <strong>{targetRoom.current_occupancy} / {targetRoom.capacity} Beds Occupied</strong>
               </span>
-              <span>{isRoomFull ? '⚠️ Cannot allocate (Room Full)' : '✅ Capacity Available'}</span>
+              <span className="font-semibold">{isRoomFull ? '⚠️ Cannot allocate (Room Full)' : '✅ Capacity Available'}</span>
             </div>
           )}
 
@@ -414,7 +414,7 @@ export const AllocationList: React.FC = () => {
             onChange={(e) => setAllocateForm({ ...allocateForm, notes: e.target.value })}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsAllocateModalOpen(false)}>
               Cancel
             </Button>
@@ -478,7 +478,7 @@ export const AllocationList: React.FC = () => {
             required
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsTransferModalOpen(false)}>
               Cancel
             </Button>

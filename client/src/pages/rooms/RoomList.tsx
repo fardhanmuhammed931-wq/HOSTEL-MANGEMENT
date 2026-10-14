@@ -134,23 +134,23 @@ export const RoomList: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Rooms & Inventory
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Interactive visual room occupancy grid, bed capacities, and pricing.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           {/* View Mode Toggle */}
-          <div className="flex items-center p-1 rounded-xl bg-slate-900/60 border border-white/10">
+          <div className="flex items-center p-1 rounded-2xl liquid-glass border border-black/5 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-lg transition-all ${
+              className={`p-1.5 rounded-xl transition-all duration-200 ${
                 viewMode === 'grid'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-primary-500/15 text-primary-600 dark:text-primary-300 shadow-sm border border-primary-500/20 font-semibold'
+                  : 'text-slate-400 hover:text-slate-700 dark:hover:text-white'
               }`}
               title="Grid View"
               aria-label="Grid view"
@@ -159,10 +159,10 @@ export const RoomList: React.FC = () => {
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-lg transition-all ${
+              className={`p-1.5 rounded-xl transition-all duration-200 ${
                 viewMode === 'table'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-primary-500/15 text-primary-600 dark:text-primary-300 shadow-sm border border-primary-500/20 font-semibold'
+                  : 'text-slate-400 hover:text-slate-700 dark:hover:text-white'
               }`}
               title="Table View"
               aria-label="Table view"
@@ -185,7 +185,7 @@ export const RoomList: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <Input
             placeholder="Search room number..."
@@ -259,16 +259,16 @@ export const RoomList: React.FC = () => {
               <GlassCard
                 key={room.id}
                 hoverEffect
-                className="flex flex-col justify-between p-5 border-t-2"
+                className="flex flex-col justify-between p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg"
               >
                 <div>
                   {/* Card Header: Room Number & Status */}
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div>
-                      <span className="text-2xl font-black text-white tracking-tight">
+                      <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                         #{room.room_number}
                       </span>
-                      <p className="text-xs text-slate-400 font-medium">
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                         Floor {room.floor} &bull; {room.hostel_name}
                       </p>
                     </div>
@@ -276,10 +276,10 @@ export const RoomList: React.FC = () => {
                   </div>
 
                   {/* Bed Occupancy Graphic Dots */}
-                  <div className="my-4 p-3 rounded-xl bg-white/5 border border-white/5">
+                  <div className="my-4 p-3.5 rounded-2xl liquid-well border border-black/5 dark:border-white/5">
                     <div className="flex items-center justify-between text-xs mb-2">
-                      <span className="text-slate-400">Bed Occupancy</span>
-                      <span className="font-bold text-white">
+                      <span className="text-slate-500 dark:text-slate-400 font-medium">Bed Occupancy</span>
+                      <span className="font-bold text-slate-900 dark:text-white font-mono">
                         {room.current_occupancy} / {room.capacity} Beds
                       </span>
                     </div>
@@ -290,10 +290,10 @@ export const RoomList: React.FC = () => {
                         return (
                           <div
                             key={i}
-                            className={`flex-1 h-2 rounded-full transition-all ${
+                            className={`flex-1 h-2 rounded-full transition-all duration-300 ${
                               isOccupied
-                                ? 'bg-cyan-400 shadow-sm shadow-cyan-400/50'
-                                : 'bg-slate-800 border border-white/10'
+                                ? 'bg-gradient-to-r from-primary-500 to-indigo-500 shadow-sm shadow-primary-500/30'
+                                : 'bg-slate-200 dark:bg-white/10'
                             }`}
                             title={isOccupied ? 'Occupied Bed' : 'Available Bed'}
                           />
@@ -303,19 +303,19 @@ export const RoomList: React.FC = () => {
                   </div>
 
                   {/* Details */}
-                  <div className="space-y-1.5 text-xs text-slate-300">
+                  <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
                     <p className="flex items-center justify-between">
-                      <span className="text-slate-400">Room Type:</span>
-                      <span className="font-semibold capitalize text-white">{room.room_type}</span>
+                      <span className="text-slate-400 dark:text-slate-400">Room Type:</span>
+                      <span className="font-semibold capitalize text-slate-800 dark:text-slate-200">{room.room_type}</span>
                     </p>
                     <p className="flex items-center justify-between">
-                      <span className="text-slate-400">Monthly Rent:</span>
-                      <span className="font-mono font-bold text-emerald-400 text-sm">
+                      <span className="text-slate-400 dark:text-slate-400">Monthly Rent:</span>
+                      <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                         ${room.fee_per_month}
                       </span>
                     </p>
                     {room.amenities && (
-                      <p className="text-[11px] text-slate-400 line-clamp-1 pt-1 border-t border-white/5">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 pt-1.5 border-t border-black/5 dark:border-white/5">
                         {room.amenities}
                       </p>
                     )}
@@ -323,8 +323,8 @@ export const RoomList: React.FC = () => {
                 </div>
 
                 {/* Footer Action */}
-                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                  <span className={`text-xs font-semibold ${availBeds > 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                  <span className={`text-xs font-semibold ${availBeds > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
                     {availBeds > 0 ? `${availBeds} Bed(s) Free` : 'Room Full'}
                   </span>
                   <Button
@@ -342,40 +342,40 @@ export const RoomList: React.FC = () => {
         </div>
       ) : (
         /* Administrative Table View */
-        <GlassCard className="p-0 overflow-hidden">
+        <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Room No</th>
-                  <th className="py-3.5 px-4">Hostel Wing</th>
-                  <th className="py-3.5 px-4">Floor</th>
-                  <th className="py-3.5 px-4">Type</th>
-                  <th className="py-3.5 px-4">Capacity</th>
-                  <th className="py-3.5 px-4">Occupancy</th>
-                  <th className="py-3.5 px-4">Fee / Mo</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-4 px-5">Room No</th>
+                  <th className="py-4 px-5">Hostel Wing</th>
+                  <th className="py-4 px-5">Floor</th>
+                  <th className="py-4 px-5">Type</th>
+                  <th className="py-4 px-5">Capacity</th>
+                  <th className="py-4 px-5">Occupancy</th>
+                  <th className="py-4 px-5">Fee / Mo</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {rooms.map((room) => (
-                  <tr key={room.id} className="hover:bg-white/5 text-xs">
-                    <td className="py-3 px-4 font-extrabold text-white font-mono text-sm">
+                  <tr key={room.id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5 font-extrabold text-slate-900 dark:text-white font-mono text-sm">
                       #{room.room_number}
                     </td>
-                    <td className="py-3 px-4 text-slate-200">{room.hostel_name}</td>
-                    <td className="py-3 px-4 text-slate-300">Floor {room.floor}</td>
-                    <td className="py-3 px-4 text-slate-300 capitalize">{room.room_type}</td>
-                    <td className="py-3 px-4 text-slate-300 font-mono">{room.capacity} Beds</td>
-                    <td className="py-3 px-4 font-bold text-cyan-300 font-mono">
+                    <td className="py-4 px-5 text-slate-800 dark:text-slate-200 font-medium">{room.hostel_name}</td>
+                    <td className="py-4 px-5 text-slate-600 dark:text-slate-300">Floor {room.floor}</td>
+                    <td className="py-4 px-5 text-slate-600 dark:text-slate-300 capitalize">{room.room_type}</td>
+                    <td className="py-4 px-5 text-slate-600 dark:text-slate-300 font-mono">{room.capacity} Beds</td>
+                    <td className="py-4 px-5 font-bold text-primary-600 dark:text-primary-300 font-mono">
                       {room.current_occupancy} / {room.capacity}
                     </td>
-                    <td className="py-3 px-4 font-mono text-emerald-400 font-bold">${room.fee_per_month}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-5 font-mono text-emerald-600 dark:text-emerald-400 font-bold">${room.fee_per_month}</td>
+                    <td className="py-4 px-5">
                       <Badge status={room.status} size="sm" />
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-4 px-5 text-right">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -390,7 +390,7 @@ export const RoomList: React.FC = () => {
               </tbody>
             </table>
           </div>
-        </GlassCard>
+        </div>
       )}
 
       {/* Add Room Modal */}
@@ -485,7 +485,7 @@ export const RoomList: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, amenities: e.target.value })}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsAddModalOpen(false)}>
               Cancel
             </Button>
@@ -514,19 +514,19 @@ export const RoomList: React.FC = () => {
               {selectedRoom?.occupants?.map((occ: any) => (
                 <div
                   key={occ.student_id}
-                  className="p-3.5 rounded-xl bg-slate-800/60 border border-white/10 flex items-center justify-between text-xs"
+                  className="p-3.5 rounded-2xl liquid-well border border-black/5 dark:border-white/10 flex items-center justify-between text-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500/20 to-indigo-500/20 text-primary-600 dark:text-primary-400 border border-primary-500/20 flex items-center justify-center font-bold">
                       {occ.full_name?.charAt(0)}
                     </div>
                     <div>
-                      <p className="font-semibold text-white">{occ.full_name}</p>
-                      <p className="text-slate-400 font-mono text-[11px]">{occ.student_code} &bull; {occ.department}</p>
+                      <p className="font-semibold text-slate-900 dark:text-white">{occ.full_name}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-mono text-[11px]">{occ.student_code} &bull; {occ.department}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono text-cyan-300 font-semibold bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+                    <span className="font-mono text-primary-600 dark:text-primary-300 font-semibold liquid-glass px-2.5 py-1 rounded-xl border border-primary-500/20 text-[11px]">
                       Bed: {occ.bed_number || 'Standard'}
                     </span>
                     <p className="text-[10px] text-slate-400 mt-1">Since {occ.start_date}</p>
@@ -536,7 +536,7 @@ export const RoomList: React.FC = () => {
             </div>
           )}
 
-          <div className="flex justify-end pt-3 border-t border-white/10">
+          <div className="flex justify-end pt-3 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" onClick={() => setIsOccupantsModalOpen(false)}>
               Close
             </Button>

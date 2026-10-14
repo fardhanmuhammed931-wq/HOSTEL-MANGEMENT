@@ -133,10 +133,10 @@ export const UserList: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             User Accounts & Roles
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Control access roles, administrator credentials, wardens, and student user accounts.
           </p>
         </div>
@@ -152,7 +152,7 @@ export const UserList: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="sm:col-span-2">
             <Input
@@ -177,7 +177,7 @@ export const UserList: React.FC = () => {
       </GlassCard>
 
       {/* Users Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -185,47 +185,47 @@ export const UserList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">User</th>
-                  <th className="py-3.5 px-4">Email</th>
-                  <th className="py-3.5 px-4">Role</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4">Last Login</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-4 px-5">User</th>
+                  <th className="py-4 px-5">Email</th>
+                  <th className="py-4 px-5">Role</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5">Last Login</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3.5 px-4 font-semibold text-white">
+                  <tr key={u.id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5 font-semibold text-slate-900 dark:text-white">
                       {u.full_name}
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-300 font-mono">
+                    <td className="py-4 px-5 text-slate-600 dark:text-slate-300 font-mono">
                       {u.email}
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={u.role} size="sm" />
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={u.status} size="sm" />
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-400 font-mono">
+                    <td className="py-4 px-5 text-slate-400 font-mono">
                       {u.last_login || 'Never logged in'}
                     </td>
 
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-4 px-5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => {
                             setSelectedUser(u);
                             setIsResetPasswordModalOpen(true);
                           }}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                          className="p-1.5 rounded-xl text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-500/10 transition-colors"
                           title="Reset Password"
                           aria-label="Reset password"
                         >
@@ -234,10 +234,10 @@ export const UserList: React.FC = () => {
 
                         <button
                           onClick={() => handleToggleStatus(u)}
-                          className={`p-1.5 rounded-lg transition-colors ${
+                          className={`p-1.5 rounded-xl transition-colors ${
                             u.status === 'active'
-                              ? 'text-slate-400 hover:text-rose-400 hover:bg-rose-500/10'
-                              : 'text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10'
+                              ? 'text-slate-400 hover:text-rose-500 hover:bg-rose-500/10'
+                              : 'text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10'
                           }`}
                           title={u.status === 'active' ? 'Deactivate User' : 'Activate User'}
                           aria-label="Toggle user status"
@@ -256,7 +256,7 @@ export const UserList: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
 
       {/* Create User Modal */}
       <Modal
@@ -312,7 +312,7 @@ export const UserList: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsAddUserModalOpen(false)}>
               Cancel
             </Button>
@@ -340,7 +340,7 @@ export const UserList: React.FC = () => {
             required
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsResetPasswordModalOpen(false)}>
               Cancel
             </Button>

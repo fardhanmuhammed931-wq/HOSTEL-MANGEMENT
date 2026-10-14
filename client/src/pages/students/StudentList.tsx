@@ -207,10 +207,10 @@ export const StudentList: React.FC = () => {
       {/* Header with Title and Actions */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Student Management
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Directory of enrolled hostel residents, academic profiles, and bed allocations.
           </p>
         </div>
@@ -303,77 +303,77 @@ export const StudentList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Student ID</th>
-                  <th className="py-3.5 px-4">Department & Course</th>
-                  <th className="py-3.5 px-4">Hostel & Room</th>
-                  <th className="py-3.5 px-4">Guardian Contact</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-4 px-5">Student</th>
+                  <th className="py-4 px-5">Student ID</th>
+                  <th className="py-4 px-5">Department & Course</th>
+                  <th className="py-4 px-5">Hostel & Room</th>
+                  <th className="py-4 px-5">Guardian Contact</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {students.map((student) => (
-                  <tr key={student.id} className="hover:bg-white/5 transition-colors">
+                  <tr key={student.id} className="liquid-table-row">
                     {/* Student Info */}
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs shadow-md shadow-cyan-500/20">
+                        <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs shadow-md shadow-cyan-500/20 border border-white/20">
                           {student.full_name.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-semibold text-white">{student.full_name}</p>
-                          <p className="text-xs text-slate-400 flex items-center gap-1">
-                            <Mail className="w-3 h-3 text-slate-500" /> {student.email}
+                          <p className="font-semibold text-slate-900 dark:text-white tracking-tight">{student.full_name}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
+                            <Mail className="w-3 h-3 text-slate-400" /> {student.email}
                           </p>
                         </div>
                       </div>
                     </td>
 
                     {/* Student ID */}
-                    <td className="py-3.5 px-4 font-mono font-semibold text-cyan-300 text-xs">
+                    <td className="py-4 px-5 font-mono font-semibold text-cyan-600 dark:text-cyan-400 text-xs">
                       {student.student_id}
                     </td>
 
                     {/* Department & Course */}
-                    <td className="py-3.5 px-4">
-                      <p className="text-slate-200 font-medium">{student.department}</p>
-                      <p className="text-xs text-slate-400">{student.course} ({student.academic_year})</p>
+                    <td className="py-4 px-5">
+                      <p className="text-slate-800 dark:text-slate-200 font-medium">{student.department}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{student.course} ({student.academic_year})</p>
                     </td>
 
                     {/* Hostel & Room */}
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       {student.room_number ? (
-                        <div className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20 w-fit">
-                          <Building className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 w-fit">
+                          <Building className="w-3.5 h-3.5 text-emerald-500" />
                           <span>{student.hostel_name || 'Hostel'} - Room {student.room_number}</span>
                         </div>
                       ) : (
-                        <span className="text-xs text-slate-500 italic">Not Allocated</span>
+                        <span className="text-xs text-slate-400 italic">Not Allocated</span>
                       )}
                     </td>
 
                     {/* Guardian Contact */}
-                    <td className="py-3.5 px-4 text-xs">
-                      <p className="text-slate-300 font-medium">{student.guardian_name}</p>
-                      <p className="text-slate-400 flex items-center gap-1">
-                        <Phone className="w-3 h-3 text-slate-500" /> {student.guardian_phone}
+                    <td className="py-4 px-5 text-xs">
+                      <p className="text-slate-800 dark:text-slate-200 font-medium">{student.guardian_name}</p>
+                      <p className="text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
+                        <Phone className="w-3 h-3 text-slate-400" /> {student.guardian_phone}
                       </p>
                     </td>
 
                     {/* Status Badge */}
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={student.status} size="sm" />
                     </td>
 
                     {/* Action Buttons */}
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="py-4 px-5 text-right">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => navigate(`/students/${student.id}`)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                          className="p-2 rounded-xl text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
                           title="View Profile Details"
                           aria-label="View profile"
                         >
@@ -384,7 +384,7 @@ export const StudentList: React.FC = () => {
                           <>
                             <button
                               onClick={() => handleOpenEditModal(student)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                              className="p-2 rounded-xl text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
                               title="Edit Student Info"
                               aria-label="Edit student"
                             >
@@ -396,7 +396,7 @@ export const StudentList: React.FC = () => {
                                 setSelectedStudent(student);
                                 setIsDeleteDialogOpen(true);
                               }}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                              className="p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-all active:scale-95"
                               title="Archive or Delete Student"
                               aria-label="Delete student"
                             >

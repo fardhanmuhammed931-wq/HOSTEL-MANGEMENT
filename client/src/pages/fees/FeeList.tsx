@@ -195,10 +195,10 @@ export const FeeList: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Fee Management
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Track student fee obligations, outstanding semester balances, and record payments.
           </p>
         </div>
@@ -237,38 +237,38 @@ export const FeeList: React.FC = () => {
           </>
         ) : (
           <>
-            <GlassCard hoverEffect>
-              <p className="text-xs uppercase font-bold tracking-wider text-slate-400">Total Billed Due</p>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+            <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
+              <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Total Billed Due</p>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 font-mono">
                 ${Number(summary?.totalDue || 0).toLocaleString()}
               </h3>
-              <p className="text-xs text-slate-400 mt-1">Cumulative Invoiced</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Cumulative Invoiced</p>
             </GlassCard>
 
-            <GlassCard hoverEffect>
-              <p className="text-xs uppercase font-bold tracking-wider text-slate-400">Total Collected</p>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1">
+            <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
+              <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Total Collected</p>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-mono">
                 ${Number(summary?.totalPaid || 0).toLocaleString()}
               </h3>
-              <p className="text-xs text-emerald-400/80 mt-1 flex items-center gap-1">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400/80 mt-1 flex items-center gap-1">
                 <CheckCircle className="w-3.5 h-3.5" /> Payments Verified
               </p>
             </GlassCard>
 
-            <GlassCard hoverEffect>
-              <p className="text-xs uppercase font-bold tracking-wider text-slate-400">Outstanding Balance</p>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-amber-300 mt-1">
+            <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
+              <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Outstanding Balance</p>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1 font-mono">
                 ${Number(summary?.totalOutstanding || 0).toLocaleString()}
               </h3>
-              <p className="text-xs text-amber-300/80 mt-1">Awaiting Clearance</p>
+              <p className="text-xs text-amber-600 dark:text-amber-400/80 mt-1">Awaiting Clearance</p>
             </GlassCard>
 
-            <GlassCard hoverEffect>
-              <p className="text-xs uppercase font-bold tracking-wider text-slate-400">Overdue Balances</p>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-rose-400 mt-1">
+            <GlassCard hoverEffect className="rounded-3xl border border-black/5 dark:border-white/10 shadow-lg p-5 sm:p-6">
+              <p className="text-xs uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">Overdue Balances</p>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1 font-mono">
                 ${Number(summary?.totalOverdue || 0).toLocaleString()}
               </h3>
-              <p className="text-xs text-rose-400/80 mt-1 flex items-center gap-1">
+              <p className="text-xs text-rose-600 dark:text-rose-400/80 mt-1 flex items-center gap-1">
                 <AlertTriangle className="w-3.5 h-3.5" /> Past Due Date
               </p>
             </GlassCard>
@@ -277,7 +277,7 @@ export const FeeList: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <Input
             placeholder="Search student name, ID, or period..."
@@ -314,7 +314,7 @@ export const FeeList: React.FC = () => {
       </GlassCard>
 
       {/* Fee Records Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -330,59 +330,59 @@ export const FeeList: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Fee Category</th>
-                  <th className="py-3.5 px-4">Period</th>
-                  <th className="py-3.5 px-4">Billed Due</th>
-                  <th className="py-3.5 px-4">Paid</th>
-                  <th className="py-3.5 px-4">Remaining Balance</th>
-                  <th className="py-3.5 px-4">Due Date</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  {user?.role !== 'student' && <th className="py-3.5 px-4 text-right">Actions</th>}
+                  <th className="py-4 px-5">Student</th>
+                  <th className="py-4 px-5">Fee Category</th>
+                  <th className="py-4 px-5">Period</th>
+                  <th className="py-4 px-5">Billed Due</th>
+                  <th className="py-4 px-5">Paid</th>
+                  <th className="py-4 px-5">Remaining Balance</th>
+                  <th className="py-4 px-5">Due Date</th>
+                  <th className="py-4 px-5">Status</th>
+                  {user?.role !== 'student' && <th className="py-4 px-5 text-right">Actions</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {fees.map((fee) => {
                   const balance = Number(fee.amount_due) - Number(fee.amount_paid);
                   return (
-                    <tr key={fee.id} className="hover:bg-white/5 transition-colors text-xs">
-                      <td className="py-3.5 px-4">
-                        <p className="font-semibold text-white">{fee.student_name}</p>
+                    <tr key={fee.id} className="liquid-table-row text-xs">
+                      <td className="py-4 px-5">
+                        <p className="font-semibold text-slate-900 dark:text-white">{fee.student_name}</p>
                         <p className="text-slate-400 font-mono text-[11px]">{fee.student_code}</p>
                       </td>
 
-                      <td className="py-3.5 px-4 capitalize text-slate-200 font-medium">
+                      <td className="py-4 px-5 capitalize text-slate-800 dark:text-slate-200 font-medium">
                         {fee.fee_category.replace(/_/g, ' ')}
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-300">{fee.academic_period}</td>
+                      <td className="py-4 px-5 text-slate-600 dark:text-slate-300">{fee.academic_period}</td>
 
-                      <td className="py-3.5 px-4 font-mono text-slate-300 font-semibold">
+                      <td className="py-4 px-5 font-mono text-slate-700 dark:text-slate-300 font-semibold">
                         ${Number(fee.amount_due).toFixed(2)}
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-emerald-400 font-bold">
+                      <td className="py-4 px-5 font-mono text-emerald-600 dark:text-emerald-400 font-bold">
                         ${Number(fee.amount_paid).toFixed(2)}
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono font-bold text-sm">
+                      <td className="py-4 px-5 font-mono font-bold text-sm">
                         {balance > 0 ? (
-                          <span className="text-rose-400">${balance.toFixed(2)}</span>
+                          <span className="text-rose-600 dark:text-rose-400">${balance.toFixed(2)}</span>
                         ) : (
-                          <span className="text-emerald-400">$0.00</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">$0.00</span>
                         )}
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-300">{fee.due_date}</td>
+                      <td className="py-4 px-5 text-slate-600 dark:text-slate-300">{fee.due_date}</td>
 
-                      <td className="py-3.5 px-4">
+                      <td className="py-4 px-5">
                         <Badge status={fee.status} size="sm" />
                       </td>
 
                       {user?.role !== 'student' && (
-                        <td className="py-3.5 px-4 text-right">
+                        <td className="py-4 px-5 text-right">
                           {balance > 0 ? (
                             <Button
                               variant="primary"
@@ -393,7 +393,7 @@ export const FeeList: React.FC = () => {
                               Record Payment
                             </Button>
                           ) : (
-                            <span className="text-emerald-400 text-[11px] font-semibold flex items-center justify-end gap-1">
+                            <span className="text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold flex items-center justify-end gap-1">
                               <CheckCircle className="w-3.5 h-3.5" /> Cleared
                             </span>
                           )}
@@ -406,7 +406,7 @@ export const FeeList: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
 
       {/* Create Fee Obligation Modal */}
       <Modal
@@ -473,7 +473,7 @@ export const FeeList: React.FC = () => {
             onChange={(e) => setNewFeeForm({ ...newFeeForm, description: e.target.value })}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsAddFeeModalOpen(false)}>
               Cancel
             </Button>
@@ -493,10 +493,10 @@ export const FeeList: React.FC = () => {
         size="md"
       >
         <form onSubmit={handlePaySubmit} className="space-y-4">
-          <div className="p-3 rounded-xl bg-slate-800/60 border border-white/10 text-xs flex items-center justify-between">
-            <span className="text-slate-400">Total Billed: ${selectedFee?.amount_due}</span>
-            <span className="text-slate-400">Paid So Far: ${selectedFee?.amount_paid}</span>
-            <span className="font-bold text-rose-400">
+          <div className="p-3.5 rounded-2xl liquid-well border border-black/5 dark:border-white/10 text-xs flex items-center justify-between">
+            <span className="text-slate-500 dark:text-slate-400">Total Billed: <strong className="text-slate-900 dark:text-white font-mono">${selectedFee?.amount_due}</strong></span>
+            <span className="text-slate-500 dark:text-slate-400">Paid: <strong className="text-emerald-600 dark:text-emerald-400 font-mono">${selectedFee?.amount_paid}</strong></span>
+            <span className="font-bold text-rose-600 dark:text-rose-400 font-mono">
               Remaining: ${(Number(selectedFee?.amount_due || 0) - Number(selectedFee?.amount_paid || 0)).toFixed(2)}
             </span>
           </div>
@@ -547,7 +547,7 @@ export const FeeList: React.FC = () => {
             onChange={(e) => setPayForm({ ...payForm, remarks: e.target.value })}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/10">
             <Button variant="ghost" type="button" onClick={() => setIsPayModalOpen(false)}>
               Cancel
             </Button>

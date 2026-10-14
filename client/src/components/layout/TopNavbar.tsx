@@ -9,11 +9,13 @@ import {
   LogOut,
   Building2,
   CheckCircle2,
+  Search,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { Badge } from '../common/Badge';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface TopNavbarProps {
   onOpenMobileMenu: () => void;
@@ -23,8 +25,10 @@ interface TopNavbarProps {
 export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitle }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const notifications = [
     { id: 1, title: 'Room Allocation Approved', time: '10m ago', unread: true },
@@ -32,25 +36,35 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
     { id: 3, title: 'New Maintenance Ticket Filed', time: '3h ago', unread: false },
   ];
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/students?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
-    <header className="h-16 sticky top-0 z-20 glass-topbar px-4 sm:px-6 flex items-center justify-between gap-4">
+    <header className="h-16 w-full liquid-dock rounded-3xl px-4 sm:px-6 flex items-center justify-between gap-3 sm:gap-4 relative flex-shrink-0 z-20">
+      {/* Specular Top Rim */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none rounded-t-3xl" />
+
       {/* Left: Mobile hamburger & Page Title */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onOpenMobileMenu}
-          className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+          className="md:hidden p-2 rounded-2xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.05] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-all"
           aria-label="Open navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <div>
-          <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+        <div className="truncate">
+          <h1 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight truncate">
             {pageTitle || 'Hostel Management'}
           </h1>
           {user?.hostel_name && (
-            <p className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400">
-              <Building2 className="w-3.5 h-3.5 text-cyan-400" />
+            <p className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+              <Building2 className="w-3.5 h-3.5 text-cyan-500" />
               <span>{user.hostel_name}</span>
               {user.room_number && <span>&bull; Room {user.room_number}</span>}
             </p>
@@ -58,45 +72,74 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
         </div>
       </div>
 
-      {/* Right Controls: Role Badge, Theme Toggle, Notifications, User Menu */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+      {/* Center: Command-Style Search Bar */}
+      <form
+        onSubmit={handleSearchSubmit}
+        className="hidden md:flex items-center flex-1 max-w-xs lg:max-w-md mx-2"
+      >
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <Search className="w-4 h-4" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search students, rooms, records..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-12 py-2 text-xs sm:text-sm rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/5 dark:border-white/10 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500/60 focus:ring-2 focus:ring-cyan-500/15 transition-all shadow-[inset_0_1px_1.5px_rgba(0,0,0,0.03)]"
+          />
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-black/5 dark:bg-white/10 rounded-md border border-black/5 dark:border-white/10">
+              ↵
+            </kbd>
+          </div>
+        </div>
+      </form>
+
+      {/* Right Controls: System Online, Role Badge, Theme Toggle, Notifications, User Menu */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        {/* System Online Status Pill */}
+        <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/12 border border-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-[11px] font-semibold tracking-wide">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
           <span>System Online</span>
         </div>
 
         {user?.role && (
           <div className="hidden sm:block">
-            <Badge status={user.role} />
+            <Badge status={user.role} size="sm" />
           </div>
         )}
 
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+          className="p-2 rounded-2xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.05] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-all active:scale-95"
           title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           aria-label="Toggle theme"
         >
-          {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
+          {theme === 'dark' ? (
+            <Sun className="w-4.5 h-4.5 text-amber-400" />
+          ) : (
+            <Moon className="w-4.5 h-4.5 text-indigo-500" />
+          )}
         </button>
 
         {/* Notifications Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors relative"
+            className="p-2 rounded-2xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.05] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] transition-all active:scale-95 relative"
             aria-label="Notifications"
           >
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-cyan-400 ring-2 ring-slate-900" />
+            <Bell className="w-4.5 h-4.5" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-2xl shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <h4 className="text-sm font-bold text-white">Notifications</h4>
-                <span className="text-[10px] font-semibold text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-2 py-0.5 rounded-full">
+            <div className="absolute right-0 mt-3 w-80 rounded-3xl liquid-dock p-4 z-50 animate-in fade-in zoom-in-95 shadow-2xl">
+              <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">Notifications</h4>
+                <span className="text-[10px] font-semibold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-2.5 py-0.5 rounded-full">
                   3 recent
                 </span>
               </div>
@@ -104,12 +147,12 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
                 {notifications.map((n) => (
                   <div
                     key={n.id}
-                    className="p-2.5 rounded-xl hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/5"
+                    className="p-2.5 rounded-2xl hover:bg-black/[0.03] dark:hover:bg-white/5 transition-all cursor-pointer"
                   >
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-500 mt-0.5 flex-shrink-0" />
                       <div>
-                        <p className="text-xs font-medium text-slate-200">{n.title}</p>
+                        <p className="text-xs font-medium text-slate-800 dark:text-slate-200">{n.title}</p>
                         <span className="text-[10px] text-slate-400">{n.time}</span>
                       </div>
                     </div>
@@ -124,29 +167,31 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-white/10 transition-colors"
+            className="flex items-center gap-2.5 p-1 rounded-2xl hover:bg-black/[0.03] dark:hover:bg-white/5 transition-all active:scale-95"
             aria-label="User profile menu"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs shadow-md shadow-cyan-500/20">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs shadow-md shadow-cyan-500/25 border border-white/20">
               {user?.full_name?.charAt(0) || 'U'}
             </div>
-            <div className="hidden lg:block text-left">
-              <p className="text-xs font-semibold text-white leading-tight">{user?.full_name}</p>
+            <div className="hidden lg:block text-left pr-1">
+              <p className="text-xs font-semibold text-slate-900 dark:text-white leading-tight tracking-tight">
+                {user?.full_name}
+              </p>
               <p className="text-[10px] text-slate-400 capitalize">{user?.role}</p>
             </div>
           </button>
 
           {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-2xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95">
-              <div className="px-3 py-2 border-b border-white/10 mb-1">
-                <p className="text-xs font-bold text-white truncate">{user?.full_name}</p>
+            <div className="absolute right-0 mt-3 w-56 rounded-3xl liquid-dock p-2 z-50 animate-in fade-in zoom-in-95 shadow-2xl">
+              <div className="px-3 py-2.5 border-b border-black/5 dark:border-white/10 mb-1">
+                <p className="text-xs font-bold text-slate-900 dark:text-white truncate tracking-tight">{user?.full_name}</p>
                 <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
               </div>
 
               <Link
                 to="/settings"
                 onClick={() => setShowUserMenu(false)}
-                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/5 rounded-2xl transition-all"
               >
                 <User className="w-4 h-4" />
                 <span>Profile & Settings</span>
@@ -156,7 +201,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
                 <Link
                   to="/users"
                   onClick={() => setShowUserMenu(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/5 rounded-2xl transition-all"
                 >
                   <Shield className="w-4 h-4" />
                   <span>Manage Users</span>
@@ -168,7 +213,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onOpenMobileMenu, pageTitl
                   setShowUserMenu(false);
                   logout();
                 }}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-xl transition-colors mt-1"
+                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-500/10 rounded-2xl transition-all mt-1"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Log Out</span>

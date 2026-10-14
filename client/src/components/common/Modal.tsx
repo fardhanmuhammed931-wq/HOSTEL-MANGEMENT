@@ -43,28 +43,44 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-20 flex items-center justify-center">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-12 flex items-center justify-center">
+      {/* Deep Spatial Blurred Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-950/75 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-slate-950/60 dark:bg-black/60 backdrop-blur-xl transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Dialog Card */}
+      {/* Ultra-frosted Liquid Glass Modal Sheet */}
       <div
-        className={`relative w-full ${sizeClasses[size]} rounded-2xl border border-white/10 bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl z-10 transition-all transform scale-100 animate-in fade-in zoom-in-95 duration-200`}
+        className={`
+          relative w-full ${sizeClasses[size]} rounded-3xl
+          bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl backdrop-saturate-[200%]
+          border border-white/70 dark:border-white/15
+          p-6 sm:p-8 shadow-2xl z-10 transition-all transform scale-100
+          animate-in fade-in zoom-in-95 duration-200
+          text-slate-900 dark:text-slate-100
+        `}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-start justify-between pb-4 border-b border-white/10">
+        {/* Specular Top Rim */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 dark:via-white/25 to-transparent pointer-events-none rounded-t-3xl" />
+
+        <div className="flex items-start justify-between pb-4 border-b border-black/5 dark:border-white/10">
           <div>
-            <h3 className="text-xl font-bold text-white tracking-tight">{title}</h3>
-            {description && <p className="text-sm text-slate-400 mt-1">{description}</p>}
+            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {title}
+            </h3>
+            {description && (
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                {description}
+              </p>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all"
             aria-label="Close dialog"
           >
             <X className="w-5 h-5" />

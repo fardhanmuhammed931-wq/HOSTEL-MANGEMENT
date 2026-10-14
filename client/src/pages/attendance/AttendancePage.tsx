@@ -126,10 +126,10 @@ export const AttendancePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Daily Attendance & Roll Call
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Monitor residential hostel presence, curfew verification, and leave requests.
           </p>
         </div>
@@ -148,7 +148,7 @@ export const AttendancePage: React.FC = () => {
       </div>
 
       {/* Date & Hostel Filters Card */}
-      <GlassCard className="p-4 sm:p-5">
+      <GlassCard className="p-4 sm:p-5 rounded-3xl border border-black/5 dark:border-white/10 shadow-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="Attendance Date"
@@ -181,31 +181,31 @@ export const AttendancePage: React.FC = () => {
           </>
         ) : (
           <>
-            <GlassCard className="p-4 text-center">
-              <p className="text-xs text-slate-400 font-semibold uppercase">Total Students</p>
-              <h3 className="text-2xl font-black text-white mt-1">{summary?.totalStudents || 0}</h3>
+            <GlassCard className="p-5 text-center rounded-3xl border border-black/5 dark:border-white/10 shadow-md">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Total Students</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1 font-mono">{summary?.totalStudents || 0}</h3>
             </GlassCard>
 
-            <GlassCard className="p-4 text-center border-emerald-500/20 bg-emerald-500/5">
-              <p className="text-xs text-emerald-400 font-semibold uppercase">Present</p>
-              <h3 className="text-2xl font-black text-emerald-400 mt-1">{summary?.present || 0}</h3>
+            <GlassCard className="p-5 text-center rounded-3xl border border-emerald-500/20 bg-emerald-500/5 shadow-md">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Present</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono">{summary?.present || 0}</h3>
             </GlassCard>
 
-            <GlassCard className="p-4 text-center border-rose-500/20 bg-rose-500/5">
-              <p className="text-xs text-rose-400 font-semibold uppercase">Absent</p>
-              <h3 className="text-2xl font-black text-rose-400 mt-1">{summary?.absent || 0}</h3>
+            <GlassCard className="p-5 text-center rounded-3xl border border-rose-500/20 bg-rose-500/5 shadow-md">
+              <p className="text-xs text-rose-600 dark:text-rose-400 font-bold uppercase tracking-wider">Absent</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400 mt-1 font-mono">{summary?.absent || 0}</h3>
             </GlassCard>
 
-            <GlassCard className="p-4 text-center border-amber-500/20 bg-amber-500/5">
-              <p className="text-xs text-amber-300 font-semibold uppercase">On Leave</p>
-              <h3 className="text-2xl font-black text-amber-300 mt-1">{summary?.onLeave || 0}</h3>
+            <GlassCard className="p-5 text-center rounded-3xl border border-amber-500/20 bg-amber-500/5 shadow-md">
+              <p className="text-xs text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">On Leave</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400 mt-1 font-mono">{summary?.onLeave || 0}</h3>
             </GlassCard>
           </>
         )}
       </div>
 
       {/* Attendance Sheet Table */}
-      <GlassCard className="p-0 overflow-hidden">
+      <div className="liquid-glass rounded-3xl overflow-hidden border border-black/5 dark:border-white/10 shadow-xl">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="p-6">
@@ -217,51 +217,51 @@ export const AttendancePage: React.FC = () => {
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-xs uppercase tracking-wider text-slate-300 border-b border-white/10">
+              <thead className="bg-black/[0.02] dark:bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-b border-black/5 dark:border-white/10">
                 <tr>
-                  <th className="py-3.5 px-4">Student Name</th>
-                  <th className="py-3.5 px-4">Student ID</th>
-                  <th className="py-3.5 px-4">Hostel & Room</th>
-                  <th className="py-3.5 px-4">Status for {date}</th>
-                  {user?.role !== 'student' && <th className="py-3.5 px-4 text-right">Quick Mark</th>}
+                  <th className="py-4 px-5">Student Name</th>
+                  <th className="py-4 px-5">Student ID</th>
+                  <th className="py-4 px-5">Hostel & Room</th>
+                  <th className="py-4 px-5">Status for {date}</th>
+                  {user?.role !== 'student' && <th className="py-4 px-5 text-right">Quick Mark</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-black/5 dark:divide-white/5">
                 {records.map((r) => (
-                  <tr key={r.student_id} className="hover:bg-white/5 transition-colors text-xs">
-                    <td className="py-3 px-4">
-                      <p className="font-semibold text-white">{r.student_name}</p>
+                  <tr key={r.student_id} className="liquid-table-row text-xs">
+                    <td className="py-4 px-5">
+                      <p className="font-semibold text-slate-900 dark:text-white">{r.student_name}</p>
                       <p className="text-slate-400 text-[11px]">{r.department}</p>
                     </td>
 
-                    <td className="py-3 px-4 font-mono font-semibold text-cyan-300">
+                    <td className="py-4 px-5 font-mono font-semibold text-primary-600 dark:text-primary-300">
                       {r.student_code}
                     </td>
 
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-5">
                       {r.room_number ? (
-                        <div className="flex items-center gap-1.5 text-slate-200">
-                          <Building className="w-3.5 h-3.5 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-medium">
+                          <Building className="w-3.5 h-3.5 text-primary-500" />
                           <span>{r.hostel_name} &bull; Room {r.room_number}</span>
                         </div>
                       ) : (
-                        <span className="text-slate-500 italic">No Room Allocated</span>
+                        <span className="text-slate-400 italic">No Room Allocated</span>
                       )}
                     </td>
 
-                    <td className="py-3 px-4">
+                    <td className="py-4 px-5">
                       <Badge status={r.attendance_status} size="sm" />
                     </td>
 
                     {user?.role !== 'student' && (
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-4 px-5 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => handleMarkStatus(r.student_id, 'present')}
-                            className={`p-1.5 rounded-lg border transition-all ${
+                            className={`p-1.5 rounded-xl border transition-all duration-200 active:scale-95 ${
                               r.attendance_status === 'present'
                                 ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm shadow-emerald-500/30'
-                                : 'bg-slate-900/60 border-white/10 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30'
+                                : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-500/30'
                             }`}
                             title="Mark Present"
                             aria-label="Mark present"
@@ -271,10 +271,10 @@ export const AttendancePage: React.FC = () => {
 
                           <button
                             onClick={() => handleMarkStatus(r.student_id, 'absent')}
-                            className={`p-1.5 rounded-lg border transition-all ${
+                            className={`p-1.5 rounded-xl border transition-all duration-200 active:scale-95 ${
                               r.attendance_status === 'absent'
                                 ? 'bg-rose-500 text-white border-rose-400 shadow-sm shadow-rose-500/30'
-                                : 'bg-slate-900/60 border-white/10 text-slate-400 hover:text-rose-400 hover:border-rose-500/30'
+                                : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-500/30'
                             }`}
                             title="Mark Absent"
                             aria-label="Mark absent"
@@ -284,10 +284,10 @@ export const AttendancePage: React.FC = () => {
 
                           <button
                             onClick={() => handleMarkStatus(r.student_id, 'on_leave')}
-                            className={`p-1.5 rounded-lg border transition-all ${
+                            className={`p-1.5 rounded-xl border transition-all duration-200 active:scale-95 ${
                               r.attendance_status === 'on_leave'
                                 ? 'bg-amber-500 text-white border-amber-400 shadow-sm shadow-amber-500/30'
-                                : 'bg-slate-900/60 border-white/10 text-slate-400 hover:text-amber-300 hover:border-amber-500/30'
+                                : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:border-amber-500/30'
                             }`}
                             title="Mark On Leave"
                             aria-label="Mark on leave"
@@ -303,7 +303,7 @@ export const AttendancePage: React.FC = () => {
             </table>
           )}
         </div>
-      </GlassCard>
+      </div>
     </div>
   );
 };
