@@ -1,6 +1,8 @@
 # Hostel Management System (HostelSync ERP)
 
-A full-stack, responsive, production-ready **Hostel Management System Web Application** built with a premium **Glassmorphism (glass-style) UI**, Express.js REST API, and a real MySQL database.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ffardhanmuhammed931-wq%2Fhostel-management-system&project-name=hostel-management-system&framework=vite)
+
+A full-stack, responsive, production-ready **Hostel Management System Web Application** built with an ultra-clean **Apple iOS 26 "Liquid Glass" visionOS UI**, Express.js REST API, and MySQL database.
 
 ---
 
